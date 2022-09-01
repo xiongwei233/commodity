@@ -1,10 +1,14 @@
 <template>
-  <div class="App">App</div>
+  <div class="App">
+    <h1>测试</h1>
+    <h1>测试</h1>
+    <h1>测试</h1>
+    <h1>测试</h1>
+    <h1>测试</h1>
+  </div>
 </template>
 
-<script lang="ts">
-const a = '22'
-</script>
+<script lang="ts"></script>
 
 <script setup lang="ts"></script>
 
