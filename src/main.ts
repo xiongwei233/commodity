@@ -1,16 +1,27 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './router'
+import pinia from '@/stores'
 
 // css
 import 'normalize.css'
 import '@/assets/styles/index.less'
+import 'nprogress/nprogress.css' // 进度条 nprogress 样式
+import 'virtual:windi.css'
 
+// 权限
+import './permission'
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+// 初始化router的另外写法
+//initRouter(app)
 
+// icon
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(pinia)
+app.use(router)
 app.mount('#app')
