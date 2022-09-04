@@ -5,8 +5,12 @@
         <logo-icon-white class="logo-icon"></logo-icon-white>
         <h1>{{ APP_TITLE }}</h1>
       </div>
+
       <div class="cions">
-        <el-icon><Fold /></el-icon>
+        <el-icon @click="isSide">
+          <Fold v-if="!userStore.sideBar.isCollapse" />
+          <Expand v-else />
+        </el-icon>
         <el-tooltip content="刷新" placement="bottom">
           <el-icon @click="handleRefresh"><Refresh /></el-icon>
         </el-tooltip>
@@ -90,7 +94,6 @@
 
 <script lang="ts">
 import { useUserStore } from '@/stores/modules/user'
-import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
 
 // icon 和 element类型/自己类型
@@ -113,7 +116,11 @@ import GlobalDrawer from '@/components/global-drawer.vue'
 <script setup lang="ts">
 const APP_TITLE = import.meta.env.VITE_APP_TITLE
 const userStore = useUserStore()
-const router = useRouter()
+
+//sidebar 的显示隐藏
+const isSide = () => {
+  userStore.sideBar.asideWidth = userStore.sideBar.asideWidth === '250px' ? '64px' : '250px'
+}
 
 // 全屏
 const { isFullscreen, toggle } = useFullscreen()
@@ -182,6 +189,9 @@ const submit = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
   .left {
     display: flex;
     justify-content: center;

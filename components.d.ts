@@ -29,6 +29,8 @@ declare module '@vue/runtime-core' {
     ElRouter: typeof import('element-plus/es')['ElRouter']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     GlobalDrawer: typeof import('./src/components/global-drawer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

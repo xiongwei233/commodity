@@ -1,6 +1,6 @@
 import { removeToken } from '@/utils/cookie'
 import { useUserStore } from '@/stores/modules/user'
-import router from '@/router'
+import { router } from '@/router'
 const userStore = useUserStore()
 
 /**

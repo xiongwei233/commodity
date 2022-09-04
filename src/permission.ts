@@ -2,11 +2,11 @@
  * 权限的处理
  */
 import { useUserStore } from '@/stores/modules/user'
-import router from '@/router'
+import { addAsyncRoutes, router } from '@/router'
 import { getToken } from './utils/cookie'
 
 // 全局前置守卫
-
+let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
 
@@ -31,13 +31,21 @@ router.beforeEach(async (to, from, next) => {
   // 因为 用户信息是跟随 loginAPI 一起请求的，所以在home页面刷新不会有新的用户信息请求
   // 这就导致了 在home也 一刷新用户信息数据就没有了
   // 解决: 如果已登录，自动获取用户信息，并存储到store当做，这样就一刷新就自动获取用户信息
-  if (Token) {
-    await userStore.fetchUserInfoAPI()
+  let hasNewRoutes = false
+  if (Token && !hasGetInfo) {
+    const { data }: any = await userStore.fetchUserInfoAPI()
+    // 动态添加路由
+    //console.log(data.menus)
+    hasNewRoutes = addAsyncRoutes(data.menus)
+
+    hasGetInfo = true
   }
 
   // 设置页面标题
-  let title = (to.meta.title ?? '') + import.meta.env.VITE_APP_TITLE
+  let title = (to.meta.title ? to.meta.title + '-' : '') + import.meta.env.VITE_APP_TITLE
   document.title = title
 
-  next()
+  // 解决手动导航: https://router.vuejs.org/zh/guide/advanced/dynamic-routing.html#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1
+  // 如果有新的路由就跳转到指定路由
+  hasNewRoutes ? next(to.fullPath) : next()
 })

@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/modules/user'
 
 // 进度条
 import NProgress from 'nprogress' // nprogress插件
-import router from '@/router'
+import { router } from '@/router'
 
 // 创建axios的实例
 const services = axios.create({
@@ -49,7 +49,7 @@ services.interceptors.response.use(
     // 对响应错误做点什么
     console.log(error.response)
 
-    const msg = error.response.data.msg || '请求失败'
+    const msg = error.response?.data?.msg || '请求失败'
 
     if (error.response.state === 401 || 400) {
       ElNotification({

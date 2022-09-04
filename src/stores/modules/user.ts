@@ -6,14 +6,28 @@ import { getToken, setToken } from '@/utils/cookie'
 import { loginAPI, getInfoAPI, logoutAPI, editPasswordAPI } from '@/services/index'
 
 import type { IloginForm, IEditPassword } from '@/types/user'
-import type { userInfo_Data } from '@/services/module/types/user.type'
+import type { userInfo_Data, userInfo_Menu } from '@/services/module/types/user.type'
 
 export const useUserStore = defineStore(Names.USER, {
   state: () => ({
     token: <string>getToken() ?? '',
-    userInfo: <userInfo_Data>{}
+    userInfo: <userInfo_Data>{},
+    // menu的收缩
+    sideBar: {
+      asideWidth: <string>'250px',
+      isCollapse: false
+    },
+    menus: <userInfo_Menu[]>[],
+    ruleNames: <string[]>[]
   }),
-  getters: {},
+  getters: {
+    // 监听sideBar.asideWidth的改变，计算是否显示或者隐藏
+    asideWidthFn(state) {
+      state.sideBar.asideWidth === '250px'
+        ? (state.sideBar.isCollapse = false)
+        : (state.sideBar.isCollapse = true)
+    }
+  },
   actions: {
     // 登录
     fetchSubmitAPI(loginRules: IloginForm) {
@@ -36,6 +50,8 @@ export const useUserStore = defineStore(Names.USER, {
           const result = await getInfoAPI()
           //console.log(result)
           this.userInfo = result.data
+          this.menus = result.data.menus
+          this.ruleNames = result.data.ruleNames
           resolve(result)
         } catch (error) {
           reject(error)
