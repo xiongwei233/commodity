@@ -1,4 +1,3 @@
-//import type { App } from 'vue'
 import type { userInfo_Menu } from '@/services/module/types/user.type'
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 
@@ -6,9 +5,9 @@ const Login = () => import('@/views/login/index.vue')
 const Not404 = () => import('@/views/not-Found/404.vue')
 
 const Layout = () => import('@/views/layout/index.vue')
-const home = () => import('@/views/home/index.vue')
-const category = () => import('@/views/category/index.vue')
-const goods = () => import('@/views/goods/index.vue')
+
+// 动态路由，用于匹配菜单动态添加路由
+import { asyncRoutes } from './dynamicRouter'
 
 // 默认路由，所有用户共享
 const routes: Array<RouteRecordRaw> = [
@@ -29,35 +28,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     name: 'Not404',
     component: Not404
-  }
-]
-
-// 动态路由，用于匹配菜单动态添加路由
-const asyncRoutes = [
-  // name为啥要跟路径一样，因为 动态添加的路由 使用了 hasRoute() 来检查是否有路由
-  {
-    path: '/',
-    name: '/',
-    component: home,
-    meta: {
-      title: '后台首页'
-    }
-  },
-  {
-    path: '/category/list',
-    name: '/category/list',
-    component: category,
-    meta: {
-      title: '分类管理'
-    }
-  },
-  {
-    path: '/goods/list',
-    name: '/goods/list',
-    component: goods,
-    meta: {
-      title: '商品管理'
-    }
   }
 ]
 

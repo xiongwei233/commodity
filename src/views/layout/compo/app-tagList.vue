@@ -57,6 +57,7 @@ const { activeTab, changeTab, removeTab, tabsList, clearOther, clearAll } = useT
   height: 44px;
   z-index: 99;
   padding: 0 20px;
+  background: #f3f4f6;
 
   .tag-left {
     @apply flex-1;
@@ -90,6 +91,12 @@ const { activeTab, changeTab, removeTab, tabsList, clearOther, clearAll } = useT
       line-height: 32px;
       margin-right: 10px;
       padding: 0 10px !important;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+    }
+    :deep(.is-active) {
+      color: #386cfb;
     }
   }
 

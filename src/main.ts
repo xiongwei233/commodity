@@ -22,6 +22,10 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
+// 限制权限的按钮
+import permission from '@/directives/permission'
+app.use(permission)
+
 app.use(pinia)
 app.use(router)
 app.mount('#app')

@@ -1,5 +1,5 @@
 <template>
-  <div class="goods">goods</div>
+  <div class="setting-base">基础设置</div>
 </template>
 
 <script lang="ts"></script>

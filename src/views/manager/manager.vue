@@ -1,5 +1,5 @@
 <template>
-  <div class="category">category</div>
+  <div class="manager-list"></div>
 </template>
 
 <script lang="ts"></script>

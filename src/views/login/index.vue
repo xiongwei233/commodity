@@ -167,6 +167,7 @@ onMounted(() => {
       align-items: center;
       margin-bottom: 40px;
       background: url('@/assets/images/login/login_background_right.png') no-repeat right bottom;
+      background: #fff;
       .content {
         width: 420px;
         background: #eef2ff;
