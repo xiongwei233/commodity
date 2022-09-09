@@ -95,6 +95,7 @@ import AnimationLottie from '@/components/animation-lottie.vue'
 
 import type { addNotice_Data } from '@/services/module/types/notice.type'
 import { editOrAddFunction } from './compo/hooks/useNotice'
+import { NotificationBox } from '@/utils/element-Fun'
 </script>
 
 <script setup lang="ts">
@@ -137,7 +138,7 @@ const deleteNotice = (item: addNotice_Data) => {
     .fetch_deleteNoticeAPI(item.id)
     .then(() => {
       listFnAPI()
-      ElNotification({ title: `删除成功`, type: 'success', duration: 2000 })
+      NotificationBox({ title: `删除成功!` })
     })
     .finally(() => (loading.value = false))
 }

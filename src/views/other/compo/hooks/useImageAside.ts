@@ -8,6 +8,7 @@ import send from '@/assets/animation/send.json'
 
 import type AnimationLottie from '@/components/animation-lottie.vue'
 import type GlobalDrawer from '@/components/global-drawer.vue'
+import { NotificationBox } from '@/utils/element-Fun'
 
 /**
  * 分页和分类
@@ -145,7 +146,7 @@ export const operateCategory = () => {
           await imageStore.fetch_addImageCategoryAPI({ ...addCategory_form })
           await imageStore.fetch_getImageAPI({})
         }
-        ElNotification({ title: `${drawerTitle.value}图片分类成功!`, type: 'success', duration: 2000 })
+        NotificationBox({ title: `${drawerTitle.value}图片分类成功!` })
         addCategory_ref.value?.closeLoading()
       } catch (error) {
         addCategory_ref.value?.closeLoading()

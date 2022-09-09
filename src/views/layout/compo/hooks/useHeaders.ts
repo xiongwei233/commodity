@@ -1,6 +1,7 @@
 import { removeToken } from '@/utils/cookie'
 import { useUserStore } from '@/stores/modules/user'
 import { router } from '@/router'
+import { NotificationBox } from '@/utils/element-Fun'
 const userStore = useUserStore()
 
 /**
@@ -22,7 +23,7 @@ export const logoutHook = async () => {
   removeToken()
   router.push({ path: '/login' })
   userStore.token = ''
-  ElNotification({ title: result.data || '退出登录成功', type: 'success' })
+  NotificationBox({ title: result.data || '退出登录成功' })
 }
 
 /**
@@ -47,7 +48,9 @@ export const submitHook: submitHookType<any> = ({ editFormRef, drawerRef, editPs
         removeToken()
         router.push({ path: '/login' })
         userStore.token = ''
-        ElNotification({ title: result.msg || '修改密码成功', type: 'success' })
+
+        NotificationBox({ title: `修改密码成功!` })
+
         drawerRef.value.closeLoading()
       } catch {
         drawerRef.value.closeLoading()

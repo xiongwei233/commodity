@@ -6,6 +6,7 @@ import { useUserStore } from '@/stores/modules/user'
 import NProgress from 'nprogress' // nprogress插件
 import { router } from '@/router'
 import { removeToken } from '@/utils/cookie'
+import { NotificationBox } from '@/utils/element-Fun'
 
 // 创建axios的实例
 const services = axios.create({
@@ -53,13 +54,7 @@ services.interceptors.response.use(
     const msg = error.response?.data?.msg || '请求失败'
 
     if (error.response.state === 401 || 400) {
-      ElNotification({
-        title: '请求失败',
-        message: msg,
-        type: 'warning',
-        duration: 2000,
-        dangerouslyUseHTMLString: true
-      })
+      NotificationBox({ title: '请求失败', message: msg, type: 'warning' })
     }
 
     const lout = msg.includes('非法token，请先登录！' || '非法token' || '请先登录' || '请求失败')

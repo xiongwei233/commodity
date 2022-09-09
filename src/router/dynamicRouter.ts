@@ -12,6 +12,7 @@ const order = () => import('@/views/order/order.vue')
 
 //管理员管理
 const manager = () => import('@/views/manager/manager.vue')
+const access = () => import('@/views/manager/access.vue')
 
 //系统设置
 const base = () => import('@/views/setting/base.vue')
@@ -87,7 +88,14 @@ export const asyncRoutes = [
       title: '管理员管理'
     }
   },
-
+  {
+    path: '/access/list',
+    name: '/access/list',
+    component: access,
+    meta: {
+      title: '权限管理'
+    }
+  },
   //系统设置
   {
     path: '/setting/base',

@@ -54,6 +54,7 @@ import type { FormRules, FormInstance } from 'element-plus'
 import type { IloginForm } from '@/types/user'
 import { useUserStore } from '@/stores/modules/user'
 import { validatePassword, validateUsername } from '@/utils/form-validate'
+import { NotificationBox } from '@/utils/element-Fun'
 </script>
 
 <script setup lang="ts">
@@ -88,7 +89,8 @@ const submit = () => {
       loading.value = true
       await userStore.fetchSubmitAPI(loginForm)
       await userStore.fetchUserInfoAPI()
-      ElNotification({ title: '登录成功', type: 'success' })
+
+      NotificationBox({ title: `登录成功!` })
       loading.value = false
       router.push('/')
     }

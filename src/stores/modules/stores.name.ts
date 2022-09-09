@@ -4,6 +4,8 @@ export const enum Names {
   USER = 'USER',
   HOME = 'HOME',
   IMAGE = 'IMAGE',
-  NOTICE = 'NOTICE'
+  NOTICE = 'NOTICE',
+  MANAGER = 'MANAGER'
+
   // 公共的 store
 }

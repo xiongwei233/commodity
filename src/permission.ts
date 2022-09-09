@@ -4,6 +4,7 @@
 import { useUserStore } from '@/stores/modules/user'
 import { addAsyncRoutes, router } from '@/router'
 import { getToken } from './utils/cookie'
+import { NotificationBox } from './utils/element-Fun'
 
 // 全局前置守卫
 let hasGetInfo = false
@@ -15,14 +16,15 @@ router.beforeEach(async (to, from, next) => {
   // 没有登录, 强制跳转回登录页
   if (!Token && to.path != '/login') {
     // 出错看看这里改为 !=
-    ElNotification({ title: '请先登录', type: 'error', duration: 3000 })
+    NotificationBox({ title: '请先登录', type: 'error' })
     return next({ path: '/login' })
   }
 
   // 防止重复登录
   if (Token && to.path == '/login') {
     // 出错看看这里改为 ==
-    ElNotification({ title: '请勿重复登录', type: 'error', duration: 3000 })
+    NotificationBox({ title: '请勿重复登录', type: 'error' })
+
     // from.path 是来的页面，表示从哪里过来
     // 已登录就重来来回哪里去
     return next({ path: from.path ?? '/' })

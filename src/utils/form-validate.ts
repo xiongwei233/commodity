@@ -46,7 +46,8 @@ export const validatePassword = (rule: any, value: any, callback: any) => {
 
 // 用户名校验
 export const validateUsername = (rule: any, value: any, callback: any) => {
-  if (!passbox.test(value)) {
+  const namebox = new RegExp('^[a-zA-Z0-9\u4e00-\u9fa5]{4,16}$')
+  if (!namebox.test(value)) {
     return callback(new Error('用户名必须是4-24个字母或者数字组成！'))
   }
   callback()

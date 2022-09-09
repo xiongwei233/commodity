@@ -28,6 +28,7 @@ import { uoloadImageUrl } from '@/services/module/image'
 import { useUserStore } from '@/stores/modules/user'
 
 import { getToken, removeToken } from '@/utils/cookie'
+import { NotificationBox } from '@/utils/element-Fun'
 import type { UploadFile, UploadFiles, UploadInstance, UploadUserFile } from 'element-plus'
 import { ref } from 'vue'
 </script>
@@ -52,7 +53,8 @@ const uploadRef = ref<UploadInstance>()
 //成功
 type uploadSuccessType = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => void
 const uploadSuccess: uploadSuccessType = (response, uploadFile, uploadFiles) => {
-  ElNotification({ title: '图片上传成功', type: 'success', duration: 2000 })
+  NotificationBox({ title: '图片上传成功' })
+
   emit('success', { response, uploadFile, uploadFiles })
   uploadRef.value?.clearFiles()
 }
@@ -61,7 +63,8 @@ const uploadSuccess: uploadSuccessType = (response, uploadFile, uploadFiles) => 
 type uploadErrorType = (error: Error, uploadFile: UploadFile, uploadFiles: UploadFiles) => void
 const uploadError: uploadErrorType = (error, uploadFile, uploadFiles) => {
   const msg = JSON.parse(error.message).msg || '上传失败'
-  ElNotification({ title: msg, type: 'error', duration: 3000 })
+  NotificationBox({ title: msg, type: 'error' })
+
   console.log(msg)
 
   // 如果提示非法token 直接跳转到 login

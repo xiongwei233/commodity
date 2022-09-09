@@ -5,3 +5,21 @@ export const showPrompt = (text: string, value = '', title = '') =>
     cancelButtonText: '取消',
     inputValue: value
   })
+
+// Notification 通知
+
+type NotificationBoxType = {
+  title?: string
+  type?: 'success' | 'warning' | 'info' | 'error'
+  message?: string
+  duration?: number
+}
+export const NotificationBox = ({ title, type = 'success', message, duration = 2000 }: NotificationBoxType) => {
+  ElNotification({
+    title,
+    type,
+    dangerouslyUseHTMLString: true,
+    message,
+    duration
+  })
+}
