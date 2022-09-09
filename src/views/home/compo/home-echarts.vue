@@ -26,12 +26,11 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import Echarts from './echarts.vue'
 </script>
 
 <script setup lang="ts">
-import Echarts from './echarts.vue'
 type tagType = 'month' | 'week' | 'hour'
-
 const type = ref<tagType>('week')
 const loading = ref(false)
 
@@ -41,12 +40,12 @@ const tagList = [
   { title: '近24小时', type: 'hour' }
 ]
 
-const echartsRef = ref()
+const echartsRef = ref<InstanceType<typeof Echarts>>()
 
 // 切换tag
 const onChange = (tag: any) => {
   type.value = tag.type
-  echartsRef.value.initChars()
+  echartsRef.value?.initChars()
 }
 
 const loadingFn = (value: boolean) => {

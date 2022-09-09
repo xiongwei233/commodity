@@ -21,6 +21,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+// 防止浏览器警告
+import 'default-passive-events'
 
 // 限制权限的按钮
 import permission from '@/directives/permission'

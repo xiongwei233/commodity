@@ -1,10 +1,11 @@
 <template>
-  <el-drawer v-model="isDrawer" title="修改密码" :direction="direction">
+  <el-drawer v-model="isDrawer" title="修改密码" direction="rtl">
     <div class="body">
       <div class="content">
         <slot>主要内容</slot>
       </div>
-      <div class="asctions">
+
+      <div class="asctions" v-if="footerShow">
         <el-button type="primary" @click="submit" :loading="loading"> {{ confirmText }} </el-button>
         <el-button @click="close"> 取消 </el-button>
       </div>
@@ -21,14 +22,14 @@ import { ref } from 'vue'
 const props = withDefaults(
   defineProps<{
     confirmText?: string
+    footerShow?: boolean
   }>(),
   {
-    confirmText: '提交'
+    confirmText: '提交',
+    footerShow: true
   }
 )
 
-// 显示方向
-const direction = ref<string>('rtl')
 // 显示/隐藏
 const isDrawer = ref<boolean>(false)
 // 打开

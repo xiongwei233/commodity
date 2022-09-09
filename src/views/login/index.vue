@@ -16,11 +16,7 @@
 
             <el-form ref="loginRef" :model="loginForm" :rules="loginRules" status-icon size="large">
               <el-form-item prop="username">
-                <el-input
-                  v-model="loginForm.username"
-                  placeholder="请输入用户名"
-                  :prefix-icon="UserIcon"
-                />
+                <el-input v-model="loginForm.username" placeholder="请输入用户名" :prefix-icon="UserIcon" />
               </el-form-item>
 
               <el-form-item prop="password">
@@ -33,13 +29,7 @@
                 />
               </el-form-item>
               <el-form-item>
-                <el-button
-                  type="primary"
-                  size="large"
-                  class="btn-login"
-                  @click="submit"
-                  :loading="loading"
-                >
+                <el-button type="primary" size="large" class="btn-login" @click="submit" :loading="loading">
                   登录
                 </el-button>
               </el-form-item>
@@ -101,17 +91,6 @@ const submit = () => {
       ElNotification({ title: '登录成功', type: 'success' })
       loading.value = false
       router.push('/')
-
-      //  userStore
-      //    .fetchSubmitAPI(loginForm)
-      //    .then(() => {
-      //      loading.value = false
-      //      ElNotification({ title: '登录成功', type: 'success' })
-      //      router.push('/')
-      //    })
-      //    .catch(() => {
-      //      loading.value = false
-      //    })
     }
   })
 }
@@ -139,6 +118,7 @@ onMounted(() => {
 <style scoped lang="less">
 .login {
   @apply h-full w-full;
+  background: #fff;
   .login-title {
     position: fixed;
     top: 56px;
@@ -165,8 +145,7 @@ onMounted(() => {
       display: flex;
       height: 100%;
       align-items: center;
-      margin-bottom: 40px;
-      background: url('@/assets/images/login/login_background_right.png') no-repeat right bottom;
+      background: url('@/assets/images/login/login_background_right.png') no-repeat right bottom !important;
       background: #fff;
       .content {
         width: 420px;

@@ -3,7 +3,7 @@ export interface statistics1_Panel {
   title: string
   value: number
   unit: string
-  unitColor: string
+  unitColor?: 'success' | 'warning' | 'info' | 'danger'
   subTitle: string
   subValue: number
   subUnit: string

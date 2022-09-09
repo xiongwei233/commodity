@@ -1,4 +1,16 @@
 /**
+ * 登录- token
+ */
+export interface login_Data {
+  token: string
+}
+
+export interface loginType {
+  msg: string
+  data: login_Data
+}
+
+/**
  * 登录-用户信息
  */
 export interface userInfo_Role {

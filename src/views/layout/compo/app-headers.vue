@@ -52,7 +52,7 @@
       @submit="submit"
       ref="drawerRef"
     >
-      <div class="edit-analyze" ref="editAnalyzeRef" data-name="ninja"></div>
+      <AnimationLottie ref="editAnalyzeRef"></AnimationLottie>
       <el-form
         ref="editFormRef"
         :model="editPsswordForm"
@@ -62,30 +62,15 @@
         label-width="80px"
       >
         <el-form-item prop="oldpassword" label="旧密码">
-          <el-input
-            type="password"
-            v-model="editPsswordForm.oldpassword"
-            placeholder="请输入旧密码"
-            show-password
-          />
+          <el-input type="password" v-model="editPsswordForm.oldpassword" placeholder="请输入旧密码" show-password />
         </el-form-item>
 
         <el-form-item prop="password" label="新密码">
-          <el-input
-            type="password"
-            v-model="editPsswordForm.password"
-            placeholder="请输入新密码"
-            show-password
-          />
+          <el-input type="password" v-model="editPsswordForm.password" placeholder="请输入新密码" show-password />
         </el-form-item>
 
         <el-form-item prop="repassword" label="确认密码">
-          <el-input
-            type="password"
-            v-model="editPsswordForm.repassword"
-            placeholder="请重新输入密码"
-            show-password
-          />
+          <el-input type="password" v-model="editPsswordForm.repassword" placeholder="请重新输入密码" show-password />
         </el-form-item>
       </el-form>
     </global-drawer>
@@ -103,13 +88,13 @@ import type { IEditPassword } from '@/types/user'
 
 // 动画
 import { useFullscreen } from '@vueuse/core'
-import { jsonAnimation, destroys } from '@/utils/lotie'
 import analyze from '@/assets/animation/analyze.json'
 
 // 抽离成hook了
 import { logoutHook, submitHook } from './hooks/useHeaders'
 import { validatePassword, validateRepeatPass } from '@/utils/form-validate'
 
+import AnimationLottie from '@/components/animation-lottie.vue'
 import GlobalDrawer from '@/components/global-drawer.vue'
 </script>
 
@@ -133,22 +118,14 @@ const drawerRef = ref<any>(null)
 const editFormRef = ref<FormInstance | null>(null)
 
 // 动画的DOM
-const editAnalyzeRef = ref<HTMLElement | null>(null)
-// 动画的name 用来开启和关闭动画
-const lotieName = ref<string>('')
+const editAnalyzeRef = ref<InstanceType<typeof AnimationLottie>>()
 // 打开 修改密码对话框 执行的内容.
 const drawerOpen = () => {
-  if (editAnalyzeRef.value) {
-    lotieName.value = editAnalyzeRef?.value?.dataset['name'] ?? ''
-    jsonAnimation(editAnalyzeRef.value, analyze, lotieName.value)
-  }
+  editAnalyzeRef.value?.openTottie(analyze, 'analyze')
 }
 // 关闭修改密码对话框
 const drawerClose = () => {
-  if (lotieName.value) {
-    // 销毁动画
-    destroys(lotieName.value)
-  }
+  editAnalyzeRef.value?.destroysTottie()
   // 清空表单数据
   editFormRef.value?.resetFields()
 }

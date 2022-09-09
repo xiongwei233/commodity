@@ -19,7 +19,7 @@ export const jsonAnimation = (DOM: HTMLElement, jsonFile: any, Name: string) => 
 }
 
 // 销毁动画
-export const destroys = (Name: string) => {
+export const destroys = (Name?: string) => {
   console.log('结束动画的名称', Name)
   lottie.destroy(Name)
 }

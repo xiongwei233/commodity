@@ -10,7 +10,7 @@ export const getToken = () => {
 }
 
 // 设置 token
-export const setToken = (token: CookieSetOptions) => {
+export const setToken = (token: string) => {
   return cookies.set(TokenKey, token)
 }
 

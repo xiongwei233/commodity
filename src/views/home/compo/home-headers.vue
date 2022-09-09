@@ -1,7 +1,35 @@
 <template>
   <el-row :gutter="20" class="content-box">
+    <template v-if="homeStore?.statistics_1?.length !== 0">
+      <el-col :span="6" v-for="item in homeStore?.statistics_1" class="content" :key="item.subValue">
+        <el-card class="section !border-none" shadow="hover" :body-style="{ padding: 0 }">
+          <el-card class="section !border-none" shadow="never">
+            <div class="header">
+              <span>{{ item.title }}</span>
+              <el-tag :type="item.unitColor" size="small" effect="plain">{{ item.unit }}</el-tag>
+            </div>
+          </el-card>
+
+          <el-divider />
+
+          <el-card class="section !border-none" shadow="never">
+            <section class="value">
+              <div class="h1-box">
+                <h1><AnimateNumber :value="item.value" /></h1>
+              </div>
+              <el-divider />
+              <footer class="footer">
+                <span>{{ item.subTitle }}</span>
+                <span>{{ item.subValue }}</span>
+              </footer>
+            </section>
+          </el-card>
+        </el-card>
+      </el-col>
+    </template>
+
     <!-- 骨架  -->
-    <template v-if="homeStore.statistics_1.length === 0">
+    <template v-else>
       <el-col :span="6" v-for="i in 4" :key="i" class="content">
         <el-skeleton style="width: 100%" animated>
           <template #template>
@@ -32,34 +60,6 @@
         </el-skeleton>
       </el-col>
     </template>
-
-    <template v-else>
-      <el-col :span="6" v-for="item in homeStore.statistics_1" class="content" :key="item.subValue">
-        <el-card class="section !border-none" shadow="hover" :body-style="{ padding: 0 }">
-          <el-card class="section !border-none" shadow="never">
-            <div class="header">
-              <span>{{ item.title }}</span>
-              <el-tag :type="item.unitColor" size="small" effect="plain">{{ item.unit }}</el-tag>
-            </div>
-          </el-card>
-
-          <el-divider />
-
-          <el-card class="section !border-none" shadow="never">
-            <section class="value">
-              <div class="h1-box">
-                <h1><AnimateNumber :value="item.value" /></h1>
-              </div>
-              <el-divider />
-              <footer class="footer">
-                <span>{{ item.subTitle }}</span>
-                <span>{{ item.subValue }}</span>
-              </footer>
-            </section>
-          </el-card>
-        </el-card>
-      </el-col>
-    </template>
   </el-row>
 </template>
 
@@ -70,7 +70,10 @@ import { useHomeStore } from '@/stores/modules/home'
 
 <script setup lang="ts">
 const homeStore = useHomeStore()
-homeStore.fetchGetStatistics_1API()
+
+if (homeStore.fetchGetStatistics_1API) {
+  homeStore.fetchGetStatistics_1API()
+}
 </script>
 
 <style scoped lang="less">

@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/modules/user'
 // 进度条
 import NProgress from 'nprogress' // nprogress插件
 import { router } from '@/router'
+import { removeToken } from '@/utils/cookie'
 
 // 创建axios的实例
 const services = axios.create({
@@ -56,11 +57,16 @@ services.interceptors.response.use(
         title: '请求失败',
         message: msg,
         type: 'warning',
-        duration: 3000
+        duration: 2000,
+        dangerouslyUseHTMLString: true
       })
     }
 
-    if (msg == '非法token，请先登录！') {
+    const lout = msg.includes('非法token，请先登录！' || '非法token' || '请先登录' || '请求失败')
+
+    if (lout) {
+      userStore.token = ''
+      removeToken()
       router.push('/login')
     }
 
@@ -71,19 +77,4 @@ services.interceptors.response.use(
 )
 
 // 导出的是一个函数，函数里面有传参，传参写了默认值
-export default ({
-  url,
-  method = 'GET',
-  params = {},
-  data = {},
-  headers = {}
-}: AxiosRequestConfig) => {
-  // 这里调用了axios函数，并把传参设置了进去 ,最后把结果返回给函数
-  return services({
-    url,
-    method,
-    params,
-    data,
-    headers
-  })
-}
+export default services

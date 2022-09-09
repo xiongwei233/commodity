@@ -79,9 +79,8 @@ onBeforeUnmount(() => {
   console.log('销毁了myChart')
 })
 
-// 响应式
+// echarts响应式布局
 useResizeObserver(echartsRef, () => myChart.resize())
-
 watch(
   () => loading.value,
   (newValue) => {

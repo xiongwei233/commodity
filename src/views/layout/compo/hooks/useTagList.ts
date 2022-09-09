@@ -2,6 +2,7 @@ import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { router } from '@/router'
 import { ref } from 'vue'
+import type { TabPanelName } from 'element-plus'
 
 export const useTabList = () => {
   const route = useRoute()
@@ -38,8 +39,8 @@ export const useTabList = () => {
   })
 
   // 切换标签
-  const changeTab = (path: string) => {
-    router.push(path)
+  const changeTab = (path: TabPanelName) => {
+    router.push(path as string)
   }
 
   // 初始化标签导航-从cooki取数据
@@ -52,7 +53,7 @@ export const useTabList = () => {
   initTabList()
 
   //删除tag
-  const removeTab = (targetName: string) => {
+  const removeTab = (targetName: TabPanelName) => {
     console.log(targetName)
     // 当前所有tabs
     const allTabs = tabsList.value
@@ -90,9 +91,7 @@ export const useTabList = () => {
   // 下拉选项-删除其他
   const clearOther = () => {
     // 过滤只剩下首页 和当前激活的tab
-    tabsList.value = tabsList.value.filter(
-      (tab) => tab.path === '/' || tab.path === activeTab.value
-    )
+    tabsList.value = tabsList.value.filter((tab) => tab.path === '/' || tab.path === activeTab.value)
     //console.log(tabsList.value)
     cookies.set('tabList', tabsList.value)
   }

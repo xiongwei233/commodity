@@ -9,6 +9,12 @@ const Layout = () => import('@/views/layout/index.vue')
 // 动态路由，用于匹配菜单动态添加路由
 import { asyncRoutes } from './dynamicRouter'
 
+// 分销模块
+//其他模块
+const home = () => import('@/views/home/index.vue')
+const image = () => import('@/views/other/image.vue')
+const notice = () => import('@/views/other/notice.vue')
+
 // 默认路由，所有用户共享
 const routes: Array<RouteRecordRaw> = [
   {
@@ -60,7 +66,8 @@ export const addAsyncRoutes = (menus: userInfo_Menu[]) => {
     })
   }
   findAndAddRoutesByMenus(menus)
-  // 拿到的数据是 当前有的权限并且注册了的路由，没有注册的不显示，比如有20个权限，只注册了5个页面，那么就打印5个页面
+  // 拿到的数据是 当前有的权限并且注册了的路由，没有注册的不显示，
+  // 比如有20个权限，只注册了5个页面，那么就打印5个页面
   //console.log(router.getRoutes())
   //console.log('是否有新路由', hasNewRoutes)
   return hasNewRoutes

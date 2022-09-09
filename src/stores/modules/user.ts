@@ -6,7 +6,13 @@ import { getToken, setToken } from '@/utils/cookie'
 import { loginAPI, getInfoAPI, logoutAPI, editPasswordAPI } from '@/services/index'
 
 import type { IloginForm, IEditPassword } from '@/types/user'
-import type { userInfo_Data, userInfo_Menu } from '@/services/module/types/user.type'
+import type {
+  ILogout,
+  loginType,
+  userInfo_Data,
+  userInfo_Menu,
+  userInfo_RootObject
+} from '@/services/module/types/user.type'
 
 export const useUserStore = defineStore(Names.USER, {
   state: () => ({
@@ -23,14 +29,12 @@ export const useUserStore = defineStore(Names.USER, {
   getters: {
     // 监听sideBar.asideWidth的改变，计算是否显示或者隐藏
     asideWidthFn(state) {
-      state.sideBar.asideWidth === '250px'
-        ? (state.sideBar.isCollapse = false)
-        : (state.sideBar.isCollapse = true)
+      state.sideBar.asideWidth === '250px' ? (state.sideBar.isCollapse = false) : (state.sideBar.isCollapse = true)
     }
   },
   actions: {
     // 登录
-    fetchSubmitAPI(loginRules: IloginForm) {
+    fetchSubmitAPI(loginRules: IloginForm): Promise<loginType> {
       return new Promise(async (resolve, reject) => {
         try {
           const result = await loginAPI(loginRules)
@@ -44,7 +48,7 @@ export const useUserStore = defineStore(Names.USER, {
     },
 
     // 用户信息
-    fetchUserInfoAPI() {
+    fetchUserInfoAPI(): Promise<userInfo_RootObject> {
       return new Promise(async (resolve, reject) => {
         try {
           const result = await getInfoAPI()
@@ -60,7 +64,7 @@ export const useUserStore = defineStore(Names.USER, {
     },
 
     // 退出登录
-    fetchLogoutAPI() {
+    fetchLogoutAPI(): Promise<ILogout> {
       return new Promise(async (resolve, reject) => {
         try {
           const result = await logoutAPI()

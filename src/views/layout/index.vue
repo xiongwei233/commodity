@@ -1,25 +1,25 @@
 <template>
-  <el-container>
+  <el-container class="app">
     <!-- header -->
-    <el-header>
+    <el-header class="global-headers">
       <app-headers />
     </el-header>
 
     <el-container>
       <!-- 导航 -->
-      <el-aside :width="userStore.sideBar.asideWidth">
+      <el-aside :width="userStore.sideBar.asideWidth" class="global-aside">
         <app-menu />
       </el-aside>
       <!-- 内容 -->
-      <el-main>
+      <el-main class="global-main">
         <!-- 浏览记录tag -->
         <app-tag-list />
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component, route }">
           <!-- 动画 -->
           <transition name="fade" mode="out-in">
             <!-- 最多缓存10个页面，多了就把很长时间没更新的页面踢掉 -->
             <keep-alive :max="10">
-              <component :is="Component"></component>
+              <component :is="Component" :key="route.name"></component>
             </keep-alive>
           </transition>
           <!-- 动画的标签 -->
@@ -33,6 +33,7 @@
 import AppTagList from './compo/app-tagList.vue'
 import AppHeaders from './compo/app-headers.vue'
 import AppMenu from './compo/app-menu.vue'
+
 import { useUserStore } from '@/stores/modules/user'
 </script>
 
@@ -41,41 +42,44 @@ const userStore = useUserStore()
 </script>
 
 <style scoped lang="less">
-.el-header {
-  padding: 0;
-  height: 64px;
-}
-
-.el-aside {
-  transition: all 0.2s;
-}
-.el-main {
+.app {
   height: 100%;
-}
+  .global-headers {
+    padding: 0;
+    height: 64px;
+  }
 
-.fade-enter-from {
-  opacity: 0;
-}
+  .global-aside {
+    transition: all 0.2s;
+  }
+  .global-main {
+    height: 100%;
+  }
 
-.fade-enter-to {
-  opacity: 1;
-}
+  .fade-enter-from {
+    opacity: 0;
+  }
 
-.fade-leave-from {
-  opacity: 1;
-}
+  .fade-enter-to {
+    opacity: 1;
+  }
 
-.fade-leave-to {
-  opacity: 0;
-}
+  .fade-leave-from {
+    opacity: 1;
+  }
 
-// 过度中
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.3s;
-}
+  .fade-leave-to {
+    opacity: 0;
+  }
 
-.fade-enter-active {
-  transition-delay: 0.3s;
+  // 过度中
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.3s;
+  }
+
+  .fade-enter-active {
+    transition-delay: 0.3s;
+  }
 }
 </style>
