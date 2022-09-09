@@ -46,7 +46,7 @@ const { activeTab, changeTab, removeTab, tabsList, clearOther, clearAll } = useT
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  top: 64px;
+  top: 70px;
   right: 0;
   height: 44px;
   z-index: 99;

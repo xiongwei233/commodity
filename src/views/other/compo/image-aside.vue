@@ -6,16 +6,18 @@
           <span> {{ item.name }}</span>
           <section>
             <el-icon class="icon" @click.stop="editCategory(item)"><Edit /></el-icon>
-            <el-popconfirm
-              title="是否要删除该分类？"
-              confirm-button-text="确定"
-              cancel-button-text="取消"
-              @confirm="confirmDelete(item)"
-            >
-              <template #reference>
-                <el-icon><Close /></el-icon>
-              </template>
-            </el-popconfirm>
+            <span>
+              <el-popconfirm
+                title="是否要删除该分类？"
+                confirm-button-text="确定"
+                cancel-button-text="取消"
+                @confirm="confirmDelete(item)"
+              >
+                <template #reference>
+                  <el-icon><Close /></el-icon>
+                </template>
+              </el-popconfirm>
+            </span>
           </section>
         </div>
       </template>
@@ -62,8 +64,6 @@
         </el-form-item>
       </el-form>
     </global-drawer>
-
-    <!-- 删除分类 -->
   </div>
 </template>
 

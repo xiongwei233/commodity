@@ -134,19 +134,22 @@ export const operateCategory = () => {
 
       addCategory_ref.value?.openLoading()
       // 区分是 编辑还是修改,区别: 编辑是有id的
-      if (categoryId.value) {
-        // 修改
-        await imageStore.fetch_editImageCategoryAPI({ id: categoryId.value, ...addCategory_form })
-        await imageStore.fetch_getImageAPI({ page: imageStore.catePage })
-      } else {
-        // 新增
-        await imageStore.fetch_addImageCategoryAPI({ ...addCategory_form })
-        await imageStore.fetch_getImageAPI({})
+
+      try {
+        if (categoryId.value) {
+          // 修改
+          await imageStore.fetch_editImageCategoryAPI({ id: categoryId.value, ...addCategory_form })
+          await imageStore.fetch_getImageAPI({ page: imageStore.catePage })
+        } else {
+          // 新增
+          await imageStore.fetch_addImageCategoryAPI({ ...addCategory_form })
+          await imageStore.fetch_getImageAPI({})
+        }
+        ElNotification({ title: `${drawerTitle.value}图片分类成功!`, type: 'success', duration: 2000 })
+        addCategory_ref.value?.closeLoading()
+      } catch (error) {
+        addCategory_ref.value?.closeLoading()
       }
-
-      addCategory_ref.value?.closeLoading()
-
-      ElNotification({ title: `${drawerTitle.value}图片分类成功!`, type: 'success', duration: 2000 })
       addCategory_ref.value?.close()
     })
   }

@@ -3,7 +3,7 @@
 export const enum Names {
   USER = 'USER',
   HOME = 'HOME',
-  IMAGE = 'IMAGE'
-
+  IMAGE = 'IMAGE',
+  NOTICE = 'NOTICE'
   // 公共的 store
 }

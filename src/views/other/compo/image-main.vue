@@ -27,7 +27,7 @@
       </el-col>
     </el-row>
 
-    <footer v-if="imageStore.categroyList?.list">
+    <footer>
       <el-pagination
         :current-page="currentPage"
         background
@@ -37,18 +37,18 @@
         :page-count="calcPage"
       />
     </footer>
-  </div>
 
-  <global-drawer
-    ref="uploadDrawer"
-    title="图片上传"
-    :footer-show="false"
-    @close="uploadImage_close"
-    @open="uploadImage_open"
-  >
-    <animation-lottie ref="animation_updateRef"></animation-lottie>
-    <upload-file @success="uploadSuccessFn" />
-  </global-drawer>
+    <global-drawer
+      ref="uploadDrawer"
+      title="图片上传"
+      :footer-show="false"
+      @close="uploadImage_close"
+      @open="uploadImage_open"
+    >
+      <animation-lottie ref="animation_updateRef"></animation-lottie>
+      <upload-file @success="uploadSuccessFn" />
+    </global-drawer>
+  </div>
 </template>
 
 <script lang="ts">
