@@ -26,7 +26,10 @@ export const getImageAPI: getImageType = ({ limit = 10, page = 1 }) =>
  * @returns promise
  */
 export type addImage_queryType = { name: string; order: number }
-export type addImageCategoryType = ({ name, order }: addImage_queryType) => Promise<addImageCategory_RootObject>
+export type addImageCategoryType = ({
+  name,
+  order
+}: addImage_queryType) => Promise<addImageCategory_RootObject>
 export const addImageCategoryAPI: addImageCategoryType = ({ name, order }) =>
   request.post(`/admin/image_class`, { name, order })
 
@@ -37,7 +40,11 @@ export const addImageCategoryAPI: addImageCategoryType = ({ name, order }) =>
  * @returns promise
  */
 export type editImage_queryType = { id: number; name: string; order: number }
-export type editImageCategoryType = ({ id, name, order }: editImage_queryType) => Promise<editImageCategory_RootObject>
+export type editImageCategoryType = ({
+  id,
+  name,
+  order
+}: editImage_queryType) => Promise<editImageCategory_RootObject>
 export const editImageCategoryAPI: editImageCategoryType = ({ id, name, order }) =>
   request.post(`/admin/image_class/${id}`, { name, order })
 
@@ -48,7 +55,8 @@ export const editImageCategoryAPI: editImageCategoryType = ({ id, name, order })
  */
 
 export type deleteImageCategoryType = (id: number) => Promise<editImageCategory_RootObject>
-export const deleteImageCategoryAPI: deleteImageCategoryType = (id) => request.post(`/admin/image_class/${id}/delete`)
+export const deleteImageCategoryAPI: deleteImageCategoryType = (id) =>
+  request.post(`/admin/image_class/${id}/delete`)
 
 /**
  * 指定分类下的图片列表
@@ -58,7 +66,11 @@ export const deleteImageCategoryAPI: deleteImageCategoryType = (id) => request.p
  * @returns promise
  */
 export type getImageCate_queryType = { id: number; limit?: number; page?: number }
-type getImageCategoryType = ({ id, limit, page }: getImageCate_queryType) => Promise<imageCategory_RootObject>
+type getImageCategoryType = ({
+  id,
+  limit,
+  page
+}: getImageCate_queryType) => Promise<imageCategory_RootObject>
 export const getImageCategoryAPI: getImageCategoryType = ({ id, limit = 12, page = 1 }) =>
   request.get(`/admin/image_class/${id}/image/${page}`, {
     params: { limit }
@@ -69,7 +81,8 @@ export const getImageCategoryAPI: getImageCategoryType = ({ id, limit = 12, page
  * @returns promise
  */
 type deleteImageType = (ids: number[]) => Promise<number[]>
-export const deleteImageAPI: deleteImageType = (ids) => request.post(`admin/image/delete_all`, { ids })
+export const deleteImageAPI: deleteImageType = (ids) =>
+  request.post(`admin/image/delete_all`, { ids })
 
 /**
  * 修改图片名称
@@ -78,8 +91,12 @@ export const deleteImageAPI: deleteImageType = (ids) => request.post(`admin/imag
  * @returns promise
  */
 export type editImageName_queryType = { id: number; name: string }
-type editImageType = ({ id, name }: editImageName_queryType) => Promise<editImageCategory_RootObject>
-export const editImageAPI: editImageType = ({ id, name }) => request.post(`admin/image/${id}`, { name })
+type editImageType = ({
+  id,
+  name
+}: editImageName_queryType) => Promise<editImageCategory_RootObject>
+export const editImageAPI: editImageType = ({ id, name }) =>
+  request.post(`admin/image/${id}`, { name })
 
 /**
  * 图片上传

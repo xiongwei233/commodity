@@ -60,8 +60,14 @@ type editManagerType = ({
   role_id,
   avatar
 }: editManager_queryType<string, number>) => Promise<notice_global>
-export const editManagerAPI: editManagerType = ({ id, status, username, password, role_id, avatar }) =>
-  request.post(`/admin/manager/${id}`, { status, username, password, role_id, avatar })
+export const editManagerAPI: editManagerType = ({
+  id,
+  status,
+  username,
+  password,
+  role_id,
+  avatar
+}) => request.post(`/admin/manager/${id}`, { status, username, password, role_id, avatar })
 
 /**
  * 增加管理员
@@ -73,7 +79,13 @@ export const editManagerAPI: editManagerType = ({ id, status, username, password
  * @params avatar 头像
  * @returns promise
  */
-export type addManager_queryType<T, S> = { status: S; username: T; password: T; role_id?: S; avatar?: T }
+export type addManager_queryType<T, S> = {
+  status: S
+  username: T
+  password: T
+  role_id?: S
+  avatar?: T
+}
 export type addManagerType = ({
   status,
   password,

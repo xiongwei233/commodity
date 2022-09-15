@@ -14,7 +14,12 @@ type NotificationBoxType = {
   message?: string
   duration?: number
 }
-export const NotificationBox = ({ title, type = 'success', message, duration = 2000 }: NotificationBoxType) => {
+export const NotificationBox = ({
+  title,
+  type = 'success',
+  message,
+  duration = 2000
+}: NotificationBoxType) => {
   ElNotification({
     title,
     type,

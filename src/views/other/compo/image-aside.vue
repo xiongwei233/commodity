@@ -2,7 +2,11 @@
   <el-aside class="image-aside" v-loading="loading">
     <div class="top">
       <template v-for="item in imageStore?.list?.list" :key="item.id">
-        <div class="aside-item" :class="{ active: item.id === activeIndex }" @click.stop="clickCategory(item)">
+        <div
+          class="aside-item"
+          :class="{ active: item.id === activeIndex }"
+          @click.stop="clickCategory(item)"
+        >
           <span> {{ item.name }}</span>
           <section>
             <el-icon class="icon" @click.stop="editCategory(item)"><Edit /></el-icon>
@@ -86,7 +90,8 @@ const emit = defineEmits(['change'])
 /**
  * 分页和分类
  */
-const { activeIndex, clickCategory, loading, currentPage, handleCurrentChange, calcPage } = cateAndpages(emit)
+const { activeIndex, clickCategory, loading, currentPage, handleCurrentChange, calcPage } =
+  cateAndpages(emit)
 
 /**
  * 新增/修改分类

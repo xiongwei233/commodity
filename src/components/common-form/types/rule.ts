@@ -190,7 +190,10 @@ export interface ValidateError {
 
 export type ValidateFieldsError = Record<string, ValidateError[]>
 
-export type ValidateCallback = (errors: ValidateError[] | null, fields: ValidateFieldsError | Values) => void
+export type ValidateCallback = (
+  errors: ValidateError[] | null,
+  fields: ValidateFieldsError | Values
+) => void
 
 export interface RuleValuePackage {
   rule: InternalRuleItem

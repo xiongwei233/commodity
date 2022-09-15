@@ -9,7 +9,8 @@ import type { ILogout, loginType, userInfo_RootObject } from '@/services/module/
  * @returns promise
  */
 type loginAPIType = ({ username, password }: IloginForm) => Promise<loginType>
-export const loginAPI: loginAPIType = ({ username, password }) => request.post('/admin/login', { username, password })
+export const loginAPI: loginAPIType = ({ username, password }) =>
+  request.post('/admin/login', { username, password })
 //export const loginAPI: loginAPIType = ({ username, password }) =>
 //  request({
 //    url: 'admin/login',

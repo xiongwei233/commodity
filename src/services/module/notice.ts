@@ -17,7 +17,8 @@ export const getNoticeAPI: getNoticeType = (page = 1) => request.get(`/admin/not
  */
 export type addNotice_queryType = { title: string; content: string }
 type addNoticeType = ({ title, content }: addNotice_queryType) => Promise<addNotice_RootObject>
-export const addNoticeAPI: addNoticeType = ({ title, content }) => request.post(`/admin/notice`, { title, content })
+export const addNoticeAPI: addNoticeType = ({ title, content }) =>
+  request.post(`/admin/notice`, { title, content })
 
 /**
  * 修改公告

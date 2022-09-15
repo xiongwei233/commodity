@@ -18,6 +18,12 @@
       stroke-linecap="round"
       stroke-linejoin="round"
     />
-    <path d="M24 30V36" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M24 30V36"
+      stroke="#FFF"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
   </svg>
 </template>

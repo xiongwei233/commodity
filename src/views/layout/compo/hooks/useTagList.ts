@@ -91,7 +91,9 @@ export const useTabList = () => {
   // 下拉选项-删除其他
   const clearOther = () => {
     // 过滤只剩下首页 和当前激活的tab
-    tabsList.value = tabsList.value.filter((tab) => tab.path === '/' || tab.path === activeTab.value)
+    tabsList.value = tabsList.value.filter(
+      (tab) => tab.path === '/' || tab.path === activeTab.value
+    )
     //console.log(tabsList.value)
     cookies.set('tabList', tabsList.value)
   }

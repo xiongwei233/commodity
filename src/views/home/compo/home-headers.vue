@@ -1,7 +1,12 @@
 <template>
   <el-row :gutter="20" class="content-box">
     <template v-if="homeStore?.statistics_1?.length !== 0">
-      <el-col :span="6" v-for="item in homeStore?.statistics_1" class="content" :key="item.subValue">
+      <el-col
+        :span="6"
+        v-for="item in homeStore?.statistics_1"
+        class="content"
+        :key="item.subValue"
+      >
         <el-card class="section !border-none" shadow="hover" :body-style="{ padding: 0 }">
           <el-card class="section !border-none" shadow="never">
             <div class="header">

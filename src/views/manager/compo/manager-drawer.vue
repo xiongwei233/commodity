@@ -7,11 +7,21 @@
     @closed="manager_DrawerClosed"
     @submit="managerFn"
   >
-    <el-form :model="managerForm" ref="managerFormRef" :rules="managerRules" label-width="100px" :inline="false">
+    <el-form
+      :model="managerForm"
+      ref="managerFormRef"
+      :rules="managerRules"
+      label-width="100px"
+      :inline="false"
+    >
       <animation-lottie ref="addNotice_animationRef"></animation-lottie>
 
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="managerForm.username" show-word-limit placeholder="请输入用户名"></el-input>
+        <el-input
+          v-model="managerForm.username"
+          show-word-limit
+          placeholder="请输入用户名"
+        ></el-input>
       </el-form-item>
 
       <el-form-item label="密码" prop="password">
@@ -30,7 +40,12 @@
 
       <el-form-item label="所属管理员" prop="role_id">
         <el-select v-model="managerForm.role_id" placeholder="请选中所属管理员">
-          <el-option v-for="item in managerStore.managerList.roles" :key="item.id" :label="item.name" :value="item.id">
+          <el-option
+            v-for="item in managerStore.managerList.roles"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
           </el-option>
         </el-select>
       </el-form-item>

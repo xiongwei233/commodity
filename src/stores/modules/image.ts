@@ -57,7 +57,10 @@ export const useImageStore = defineStore(Names.IMAGE, {
     },
 
     // 增加图库分类
-    fetch_addImageCategoryAPI({ name, order }: addImage_queryType): Promise<addImageCategory_RootObject> {
+    fetch_addImageCategoryAPI({
+      name,
+      order
+    }: addImage_queryType): Promise<addImageCategory_RootObject> {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await addImageCategoryAPI({ name, order })
@@ -69,7 +72,11 @@ export const useImageStore = defineStore(Names.IMAGE, {
     },
 
     // 修改图库分类
-    fetch_editImageCategoryAPI({ id, name, order }: editImage_queryType): Promise<editImageCategory_RootObject> {
+    fetch_editImageCategoryAPI({
+      id,
+      name,
+      order
+    }: editImage_queryType): Promise<editImageCategory_RootObject> {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await editImageCategoryAPI({ id, name, order })
@@ -93,7 +100,11 @@ export const useImageStore = defineStore(Names.IMAGE, {
     },
 
     // 指定分类下的图片列表
-    fetch_getImageCategoryAPI({ id, limit, page }: getImageCate_queryType): Promise<imageCategory_RootObject> {
+    fetch_getImageCategoryAPI({
+      id,
+      limit,
+      page
+    }: getImageCate_queryType): Promise<imageCategory_RootObject> {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await getImageCategoryAPI({ id, limit, page })
@@ -123,7 +134,10 @@ export const useImageStore = defineStore(Names.IMAGE, {
     },
 
     // 修改图片名称
-    fetch_editImageType({ id, name }: editImageName_queryType): Promise<editImageCategory_RootObject> {
+    fetch_editImageType({
+      id,
+      name
+    }: editImageName_queryType): Promise<editImageCategory_RootObject> {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await editImageAPI({ id, name })

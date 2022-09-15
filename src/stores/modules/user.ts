@@ -29,7 +29,9 @@ export const useUserStore = defineStore(Names.USER, {
   getters: {
     // 监听sideBar.asideWidth的改变，计算是否显示或者隐藏
     asideWidthFn(state) {
-      state.sideBar.asideWidth === '250px' ? (state.sideBar.isCollapse = false) : (state.sideBar.isCollapse = true)
+      state.sideBar.asideWidth === '250px'
+        ? (state.sideBar.isCollapse = false)
+        : (state.sideBar.isCollapse = true)
     }
   },
   actions: {

@@ -1,5 +1,9 @@
 import request from '@/services/request'
-import type { statistics1_RootObject, statistics2_RootObject, statistics3_RootObject } from './types/home.type'
+import type {
+  statistics1_RootObject,
+  statistics2_RootObject,
+  statistics3_RootObject
+} from './types/home.type'
 
 /**
  * 后台首页统计1
