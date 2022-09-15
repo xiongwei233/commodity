@@ -50,11 +50,11 @@ const uploadImageFn = () => ImageMainRef.value?.isuploadOpen()
       padding-bottom: 20px;
     }
   }
-
   .content {
     display: flex;
     justify-content: space-between;
     height: calc(100% - 73px);
+    position: relative;
   }
 }
 </style>

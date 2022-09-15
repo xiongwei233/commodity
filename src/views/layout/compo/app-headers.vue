@@ -35,74 +35,39 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="drawerRef.open()">修改密码</el-dropdown-item>
+            <el-dropdown-item @click="headersDrawerRef?.open()">修改密码</el-dropdown-item>
             <el-dropdown-item @click="logoutHook">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
 
-    <!-- 修改密码 -->
-    <global-drawer
-      :close-on-click-modal="false"
-      title="修改密码"
-      @close="drawerClose"
-      @open="drawerOpen"
-      confirmText="修改密码"
-      @submit="submit"
-      ref="drawerRef"
-    >
-      <AnimationLottie ref="editAnalyzeRef"></AnimationLottie>
-      <el-form
-        ref="editFormRef"
-        :model="editPsswordForm"
-        :rules="editPsswordRules"
-        status-icon
-        size="large"
-        label-width="80px"
-      >
-        <el-form-item prop="oldpassword" label="旧密码">
-          <el-input type="password" v-model="editPsswordForm.oldpassword" placeholder="请输入旧密码" show-password />
-        </el-form-item>
-
-        <el-form-item prop="password" label="新密码">
-          <el-input type="password" v-model="editPsswordForm.password" placeholder="请输入新密码" show-password />
-        </el-form-item>
-
-        <el-form-item prop="repassword" label="确认密码">
-          <el-input type="password" v-model="editPsswordForm.repassword" placeholder="请重新输入密码" show-password />
-        </el-form-item>
-      </el-form>
-    </global-drawer>
+    <!-- 修改密码对话框 -->
+    <headers-drawer ref="headersDrawerRef"></headers-drawer>
   </div>
 </template>
 
 <script lang="ts">
-import { useUserStore } from '@/stores/modules/user'
-import { ref, reactive } from 'vue'
-
-// icon 和 element类型/自己类型
-import LogoIconWhite from '@/assets/icons/login/logo-icon-white.vue'
-import type { FormRules, FormInstance } from 'element-plus'
-import type { IEditPassword } from '@/types/user'
-
-// 动画
 import { useFullscreen } from '@vueuse/core'
-import analyze from '@/assets/animation/analyze.json'
+import { removeToken } from '@/utils/cookie'
+import { useUserStore } from '@/stores/modules/user'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-// 抽离成hook了
-import { logoutHook, submitHook } from './hooks/useHeaders'
-import { validatePassword, validateRepeatPass } from '@/utils/form-validate'
-
-import AnimationLottie from '@/components/animation-lottie.vue'
-import GlobalDrawer from '@/components/global-drawer.vue'
+import LogoIconWhite from '@/assets/icons/login/logo-icon-white.vue'
+import HeadersDrawer from './headers-drawer.vue'
+import { NotificationBox } from '@/utils/element-Fun'
 </script>
 
 <script setup lang="ts">
 const APP_TITLE = import.meta.env.VITE_APP_TITLE
 const userStore = useUserStore()
+const router = useRouter()
 
-//sidebar 的显示隐藏
+// 修改密码对话框
+const headersDrawerRef = ref<InstanceType<typeof HeadersDrawer>>()
+
+//sidebar 的收缩
 const isSide = () => {
   userStore.sideBar.asideWidth = userStore.sideBar.asideWidth === '250px' ? '64px' : '250px'
 }
@@ -112,49 +77,24 @@ const { isFullscreen, toggle } = useFullscreen()
 // 刷新页面
 const handleRefresh = () => location.reload()
 
-// 修改密码对话框
-const drawerRef = ref<any>(null)
-// 修改密码表单
-const editFormRef = ref<FormInstance | null>(null)
+// 退出登录
+const logoutHook = async () => {
+  // 退出登录
+  const confirm = await ElMessageBox.confirm('是否要退出登录?', '退出登录', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).catch((err: string) => err)
+  // 点击取消阻止退出登录
+  if (confirm === 'cancel') return
 
-// 动画的DOM
-const editAnalyzeRef = ref<InstanceType<typeof AnimationLottie>>()
-// 打开 修改密码对话框 执行的内容.
-const drawerOpen = () => {
-  editAnalyzeRef.value?.openTottie(analyze, 'analyze')
-}
-// 关闭修改密码对话框
-const drawerClose = () => {
-  editAnalyzeRef.value?.destroysTottie()
-  // 清空表单数据
-  editFormRef.value?.resetFields()
-}
-
-// 密码
-const editPsswordForm = reactive<IEditPassword>({
-  oldpassword: '',
-  password: '',
-  repassword: ''
-})
-// password有值，就校验repassword,封装的hook调用
-const validRepassword = () => {
-  editFormRef?.value?.validateField('repassword', () => null)
-}
-// 重复密码校验的函数
-const { validatePass, validateCheckPass } = validateRepeatPass(validRepassword)
-// 表单校验规则
-const editPsswordRules = reactive<FormRules>({
-  oldpassword: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { validator: validatePassword, trigger: 'blur' }
-  ],
-  password: [{ required: true, validator: validatePass, trigger: 'blur' }],
-  repassword: [{ required: true, validator: validateCheckPass, trigger: 'blur' }]
-})
-
-// 修改密码
-const submit = () => {
-  submitHook({ editFormRef, drawerRef, editPsswordForm })
+  // 点击确定 执行下面
+  //console.log('退出登录')
+  const result: any = await userStore.fetchLogoutAPI()
+  removeToken()
+  router.push({ path: '/login' })
+  userStore.token = ''
+  NotificationBox({ title: result.data || '退出登录成功' })
 }
 </script>
 

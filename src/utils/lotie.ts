@@ -6,7 +6,7 @@ import lottie from 'lottie-web'
 
 // 开启动画
 export const jsonAnimation = (DOM: HTMLElement, jsonFile: any, Name: string) => {
-  console.log('开启动画的名称', Name)
+  //console.log('开启动画的名称', Name)
   lottie.loadAnimation({
     container: DOM,
     renderer: 'svg',
@@ -20,6 +20,6 @@ export const jsonAnimation = (DOM: HTMLElement, jsonFile: any, Name: string) => 
 
 // 销毁动画
 export const destroys = (Name?: string) => {
-  console.log('结束动画的名称', Name)
+  //console.log('结束动画的名称', Name)
   lottie.destroy(Name)
 }

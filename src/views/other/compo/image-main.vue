@@ -1,33 +1,43 @@
 <template>
-  <div class="image-main" v-loading="imageStore.cateListLoading">
-    <el-row :gutter="20">
-      <el-col v-for="item in imageStore.categroyList.list" :span="6">
-        <el-card shadow="hover" :body-style="{ padding: '0px' }" class="mb-5">
-          <template #header>
-            <div class="img-box">
-              <el-image :src="item.url" fit="cover" lazy :preview-src-list="[item.url]" />
-              <span class="title">{{ item.name }}</span>
-            </div>
-          </template>
-          <!-- card body -->
-          <div class="img-btn">
-            <el-link type="primary" :underline="false" @click="renameFn(item)">重命名</el-link>
-            <el-popconfirm
-              title="是否要删除该图片？"
-              confirm-button-text="确定"
-              cancel-button-text="取消"
-              @confirm="imagesDelete(item)"
-            >
-              <template #reference>
-                <el-link type="primary" :underline="false">删除</el-link>
-              </template>
-            </el-popconfirm>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+  <el-main class="image-main" v-loading="imageStore.cateListLoading">
+    <div class="top p-3">
+      <el-row :gutter="10">
+        <el-col v-for="item in imageStore.newResults" :lg="6" :md="12">
+          <el-card shadow="hover" :body-style="{ padding: '0px' }" class="relative mb-5">
+            <template #header>
+              <div class="img-box">
+                <el-image :src="item.url" fit="cover" lazy :preview-src-list="[item.url]" />
+                <span class="title">{{ item.name }}</span>
+              </div>
+            </template>
+            <!-- card body -->
 
-    <footer>
+            <div class="img-btn">
+              <el-checkbox
+                v-if="isChoose"
+                v-model="item.checked"
+                @change="handleCheckboxChange(item)"
+              />
+
+              <el-link type="primary" :underline="false" @click="renameFn(item)">重命名</el-link>
+
+              <el-popconfirm
+                title="是否要删除该图片？"
+                confirm-button-text="确定"
+                cancel-button-text="取消"
+                @confirm="imagesDelete(item)"
+              >
+                <template #reference>
+                  <el-link type="primary" :underline="false">删除</el-link>
+                </template>
+              </el-popconfirm>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+
+    <footer class="bottom">
       <el-pagination
         :current-page="currentPage"
         background
@@ -48,14 +58,14 @@
       <animation-lottie ref="animation_updateRef"></animation-lottie>
       <upload-file @success="uploadSuccessFn" />
     </global-drawer>
-  </div>
+  </el-main>
 </template>
 
 <script lang="ts">
 import { ref, computed } from 'vue'
 
 import { useImageStore } from '@/stores/modules/image'
-import { showPrompt } from '@/utils/element-Fun'
+import { NotificationBox, showPrompt } from '@/utils/element-Fun'
 
 import GlobalDrawer from '@/components/global-drawer.vue'
 import UploadFile from '@/components/upload-file.vue'
@@ -69,6 +79,16 @@ import type { UploadFile as UploadFileType, UploadFiles } from 'element-plus'
 <script lang="ts" setup>
 const imageStore = useImageStore()
 
+const porps = withDefaults(
+  defineProps<{
+    isChoose?: boolean
+  }>(),
+  {
+    isChoose: false
+  }
+)
+const emit = defineEmits(['choose'])
+
 // 当前在第几页
 const currentPage = ref<number>(1)
 
@@ -77,7 +97,10 @@ const calcPage = computed(() => Math.ceil(imageStore?.categroyList.totalCount / 
 
 // 拿数据的请求,方便直接用
 const imageAPIFn = () => {
-  return imageStore.fetch_getImageCategoryAPI({ id: imageStore.categroyId, page: currentPage.value })
+  return imageStore.fetch_getImageCategoryAPI({
+    id: imageStore.categroyId,
+    page: currentPage.value
+  })
 }
 
 // 点击 分页
@@ -139,6 +162,17 @@ const uploadSuccessFn = ({ response, uploadFile, uploadFiles }: uploadSuccessFnT
   imageAPIFn()
 }
 
+// 是否有选中的,
+const checkedImage = computed(() => imageStore.newResults.filter((o) => o.checked))
+// 主要是判断当前是否选中一张图
+const handleCheckboxChange = (item: imageCategory_List) => {
+  if (item.checked && checkedImage.value.length > 1) {
+    item.checked = false
+    return NotificationBox({ title: '最多只能选一张', type: 'error' })
+  }
+  emit('choose', checkedImage.value)
+}
+
 defineExpose({
   isuploadOpen
 })
@@ -146,55 +180,69 @@ defineExpose({
 
 <style scoped lang="less">
 .image-main {
-  flex: 1;
+  position: relative;
+}
+.image-main .top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 50px;
+  overflow-y: auto;
+}
+.image-main .bottom {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  right: 0;
+  @apply flex items-center justify-center;
+}
+
+.img-box {
   width: 100%;
-  padding: 20px;
-  footer {
-    display: flex;
-    justify-content: center;
-  }
-  .img-box {
+  height: 150px;
+  position: relative;
+
+  .el-image {
     width: 100%;
-    height: 150px;
-    position: relative;
-    .el-image {
-      width: 100%;
-      height: 100%;
-    }
-    .title {
-      z-index: 99;
-      position: absolute;
-      bottom: -1px;
-      right: 0px;
-      left: 0px;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.5);
-      width: 100%;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      color: #fff;
-      @apply truncate px-2;
-    }
+    height: 100%;
   }
-  .img-btn {
+  .title {
+    z-index: 99;
+    position: absolute;
+    bottom: -1px;
+    right: 0px;
+    left: 0px;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.5);
     width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .el-link {
-      height: 26px;
-      padding: 0 10px;
-      line-height: 40px;
-      &:hover {
-        background-color: #f5f7fa;
-        color: #288df1;
-      }
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    @apply truncate px-2;
+  }
+}
+
+.img-btn {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .el-link {
+    height: 26px;
+    padding: 0 10px;
+    line-height: 40px;
+    &:hover {
+      background-color: #f5f7fa;
+      color: #288df1;
     }
   }
-  :deep(.el-card__header) {
-    padding: 0;
-  }
+}
+
+:deep(.el-card__header) {
+  padding: 0;
 }
 </style>

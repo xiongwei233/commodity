@@ -54,6 +54,7 @@ const userStore = useUserStore()
   }
   .global-main {
     height: 100%;
+    background: #f3f4f6;
   }
 
   .fade-enter-from {

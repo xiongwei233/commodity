@@ -25,7 +25,7 @@
       </el-form-item>
 
       <el-form-item label="头像">
-        <p>我是头像</p>
+        <choose-images v-model="managerForm.avatar" />
       </el-form-item>
 
       <el-form-item label="所属管理员" prop="role_id">
@@ -44,18 +44,19 @@
 
 <script lang="ts">
 import { reactive, ref } from 'vue'
+import { useManagerStore } from '@/stores/modules/manager'
 
 import GlobalDrawer from '@/components/global-drawer.vue'
+import ChooseImages from '@/components/choose-images.vue'
+
 import AnimationLottie from '@/components/animation-lottie.vue'
 import manager from '@/assets/animation/manager.json'
 
-import { useManagerStore } from '@/stores/modules/manager'
-
-import type { addNotice_Data } from '@/services/module/types/notice.type'
-import type { FormInstance, FormRules } from 'element-plus'
-
 import { validatePassword, validateUsername } from '@/utils/form-validate'
+
+import type { FormInstance, FormRules } from 'element-plus'
 import type { manager_List } from '@/services/module/types/manager.type'
+import type { addManager_queryType } from '@/services/module/manager'
 </script>
 
 <script setup lang="ts">
@@ -74,18 +75,12 @@ const addNoticeShow = () => {
   manager_DrawerRef.value?.open()
 }
 
-type managerForm_Type = {
-  username: string
-  password: string
-  status: number
-  role_id?: number
-}
-
-const managerForm = reactive<managerForm_Type>({
+const managerForm = reactive<addManager_queryType<string, number>>({
   username: '',
   password: '',
   status: 1,
-  role_id: undefined
+  role_id: undefined,
+  avatar: ''
 })
 
 const managerRules = reactive<FormRules>({
@@ -113,6 +108,7 @@ const manager_DrawerClosed = () => {
   managerForm.username = ''
   managerForm.status = 1
   managerForm.role_id = undefined
+  managerForm.avatar = ''
 }
 
 /**
@@ -126,6 +122,9 @@ const editNotice = (item: manager_List) => {
   managerForm.username = item.username
   managerForm.status = item.status
   managerForm.role_id = item.role.id
+  managerForm.avatar = item.avatar
+
+  console.log('绑定的', managerForm)
   editId.value = item.id
 
   manager_DrawerRef.value?.open()

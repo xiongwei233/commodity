@@ -1,6 +1,12 @@
 <template>
   <div class="tag-list" :style="{ left: userStore.sideBar.asideWidth }">
-    <el-tabs v-model="activeTab" type="card" class="tag-left" @tab-change="changeTab" @tab-remove="removeTab">
+    <el-tabs
+      v-model="activeTab"
+      type="card"
+      class="tag-left"
+      @tab-change="changeTab"
+      @tab-remove="removeTab"
+    >
       <el-tab-pane
         v-for="item in tabsList"
         :key="item.path"

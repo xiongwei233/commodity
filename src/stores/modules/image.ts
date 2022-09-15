@@ -21,6 +21,7 @@ import type {
   addImageCategory_RootObject,
   editImageCategory_RootObject,
   imageCategory_Data,
+  imageCategory_List,
   imageCategory_RootObject,
   image_Data,
   image_RootObject
@@ -35,6 +36,8 @@ export const useImageStore = defineStore(Names.IMAGE, {
     categroyId: <number>0,
     // 当前分类的数据
     categroyList: <imageCategory_Data>{},
+    // 新分类数据
+    newResults: <imageCategory_List[]>[],
     cateListLoading: false
   }),
   getters: {},
@@ -44,6 +47,7 @@ export const useImageStore = defineStore(Names.IMAGE, {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await getImageAPI({ limit, page })
+
           this.list = results.data
           resolve(results)
         } catch (error) {
@@ -93,6 +97,11 @@ export const useImageStore = defineStore(Names.IMAGE, {
       return new Promise(async (resolve, reject) => {
         try {
           const results = await getImageCategoryAPI({ id, limit, page })
+          let newResults = results.data.list.map((o) => {
+            o.checked = false
+            return o
+          })
+          this.newResults = newResults
           this.categroyList = results.data
           resolve(results)
         } catch (error) {

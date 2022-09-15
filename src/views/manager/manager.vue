@@ -1,5 +1,5 @@
 <template>
-  <div class="notice" v-loading="managerStore.loading">
+  <div class="notice" v-loading="loading">
     <el-card shadow="never">
       <template #header>
         <el-row :gutter="20" align="middle">
@@ -13,9 +13,18 @@
 
           <!-- 关键词 -->
           <el-col :span="10">
-            <el-form :model="searchForm" ref="searchRef" :rules="searchRules" class="flex items-center searchFrom">
+            <el-form
+              :model="searchForm"
+              ref="searchRef"
+              :rules="searchRules"
+              class="flex items-center searchFrom"
+            >
               <el-form-item label="搜索关键词" prop="search" class="flex-1 !mt-0">
-                <el-input v-model="searchForm.search" placeholder="请输入搜索关键词" @change="searchFn" />
+                <el-input
+                  v-model="searchForm.search"
+                  placeholder="请输入搜索关键词"
+                  @change="searchFn"
+                />
               </el-form-item>
 
               <el-form-item class="ml-4">
@@ -27,7 +36,7 @@
 
           <el-col :span="12" :push="1">
             <el-tooltip content="刷新" placement="bottom">
-              <span @click="mannagerFn" style="cursor: pointer">
+              <span @click="updateTable()" style="cursor: pointer">
                 <el-icon><Refresh /></el-icon>
               </span>
             </el-tooltip>
@@ -35,45 +44,40 @@
         </el-row>
       </template>
 
-      <manager-table @updateManager="mannagerFn" @editManagerEmit="editManagerEmitFn" />
-
-      <!-- 分页 -->
-      <footer class="mt-5 flex items-center justify-center">
-        <el-pagination
-          hide-on-single-page
-          :current-page="managerStore.currentPage"
-          background
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange"
-          :page-count="calcPage"
-        />
-      </footer>
+      <!-- 表格 -->
+      <manager-table
+        @updateManager="updateTable"
+        @editManagerEmit="editManagerEmitFn"
+        v-model:currentPage="currentPage"
+        v-model:pageSize="pageSize"
+        :loading="loading"
+      />
     </el-card>
 
     <!-- 弹框 -->
-    <manager-drawer ref="managerDrawerRef" @updateManager="mannagerFn" />
+    <manager-drawer ref="managerDrawerRef" @updateManager="updateTable" />
   </div>
 </template>
 
 <script lang="ts">
 import ManagerDrawer from './compo/manager-drawer.vue'
 import ManagerTable from './compo/manager-table.vue'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 
 import { useManagerStore } from '@/stores/modules/manager'
 import type { FormInstance, FormRules } from 'element-plus'
-import type { addNotice_Data } from '@/services/module/types/notice.type'
 import type { manager_List } from '@/services/module/types/manager.type'
 </script>
 
 <script setup lang="ts">
 const managerStore = useManagerStore()
-
-const calcPage = computed(() => Math.ceil(managerStore.managerList.totalCount / 10))
-
 const managerDrawerRef = ref<InstanceType<typeof ManagerDrawer>>()
-
 const searchRef = ref<FormInstance>()
+
+const currentPage = ref<number>(1)
+const pageSize = ref<number>(10)
+const loading = ref<boolean>(false)
+
 const searchForm = reactive({
   search: ''
 })
@@ -82,34 +86,34 @@ const searchForm = reactive({
 const searchFn = () => {
   searchRef.value?.validate((valid) => {
     if (!valid) return
-    mannagerFn()
+    updateTable()
   })
 }
+
 // 重置
 const resetFn = () => {
   searchForm.search = ''
-  console.log('重置')
-  mannagerFn()
+  // console.log('重置')
+  updateTable()
 }
 
 // 表格数据请求
-const mannagerFn = () => {
-  managerStore.fetch_getManagerAPI({ page: managerStore.currentPage, keyword: searchForm.search })
+const updateTable = () => {
+  loading.value = true
+  managerStore
+    .fetch_getManagerAPI({
+      page: currentPage.value,
+      limit: pageSize.value,
+      keyword: searchForm.search
+    })
+    .finally(() => (loading.value = false))
 }
-onMounted(() => mannagerFn())
+onMounted(() => updateTable())
 
 // 搜索
 const searchRules = reactive<FormRules>({
   search: [{ required: true, message: '搜索内容不能为空', trigger: 'blur' }]
 })
-
-/**
- * 分页
- */
-const handleCurrentChange = (val: number) => {
-  managerStore.currentPage = val
-  mannagerFn()
-}
 
 // 打开弹窗
 const addShowNotice = () => {

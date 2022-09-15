@@ -14,26 +14,28 @@
               <h1>{{ APP_TITLE }}</h1>
             </div>
 
-            <el-form ref="loginRef" :model="loginForm" :rules="loginRules" status-icon size="large">
-              <el-form-item prop="username">
-                <el-input v-model="loginForm.username" placeholder="请输入用户名" :prefix-icon="UserIcon" />
-              </el-form-item>
-
-              <el-form-item prop="password">
-                <el-input
-                  type="password"
-                  v-model="loginForm.password"
-                  placeholder="请输入密码"
-                  :prefix-icon="PasswordIcon"
-                  show-password
-                />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" size="large" class="btn-login" @click="submit" :loading="loading">
+            <!-- 表单 -->
+            <common-form
+              :inline="false"
+              ref="loginRef"
+              :options="formOptions"
+              status-icon
+              size="large"
+              v-model="formValue"
+            >
+              <template #action>
+                <el-button
+                  type="primary"
+                  size="large"
+                  class="btn-login"
+                  :loading="loading"
+                  @click="submit"
+                >
                   登录
                 </el-button>
-              </el-form-item>
-            </el-form>
+              </template>
+            </common-form>
+            <!--  -->
           </div>
         </div>
       </el-col>
@@ -45,51 +47,72 @@
 import LogoIcon from '@/assets/icons/login/logo-icon.vue'
 import UserIcon from '@/assets/icons/login/login-user.vue'
 import PasswordIcon from '@/assets/icons/login/login-password.vue'
+import commonForm from '@/components/common-form/index.vue'
 
 import { useRouter } from 'vue-router'
-import { reactive, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
-//import { User } from '@element-plus/icons-vue'
-import type { FormRules, FormInstance } from 'element-plus'
 import type { IloginForm } from '@/types/user'
 import { useUserStore } from '@/stores/modules/user'
 import { validatePassword, validateUsername } from '@/utils/form-validate'
 import { NotificationBox } from '@/utils/element-Fun'
+import type { FormOptions } from '@/components/common-form/types/types'
 </script>
 
 <script setup lang="ts">
 const router = useRouter()
 const userStore = useUserStore()
 
-const loginRef = ref<FormInstance>()
+const loginRef = ref<InstanceType<typeof commonForm>>()
 const APP_TITLE = import.meta.env.VITE_APP_TITLE
 
-const loginForm = reactive<IloginForm>({
-  username: 'admin',
-  password: 'admin'
-})
-
-const loginRules = reactive<FormRules>({
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { validator: validateUsername, trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { validator: validatePassword, trigger: 'blur' }
-  ]
-})
-
+// 表单的配置
+let formOptions: FormOptions[] = [
+  {
+    type: 'input',
+    value: 'admin',
+    label: '',
+    prop: 'username',
+    rules: [
+      { required: true, message: '请输入用户名', trigger: 'blur' },
+      { validator: validateUsername, trigger: 'blur' }
+    ],
+    attrs: {
+      placeholder: '请输入用户名',
+      showWordLimit: true,
+      prefixicon: UserIcon
+    }
+  },
+  {
+    type: 'input',
+    value: 'admin',
+    label: '',
+    prop: 'password',
+    rules: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { validator: validatePassword, trigger: 'blur' }
+    ],
+    attrs: {
+      placeholder: '请输入密码',
+      showPassword: true,
+      prefixicon: PasswordIcon
+    }
+  }
+]
 const loading = ref<boolean>(false)
+
+const formValue = ref<IloginForm>({
+  username: '',
+  password: ''
+})
 
 // 登录
 const submit = () => {
-  loginRef.value?.validate(async (valid) => {
+  loginRef.value?.formRef?.validate(async (valid) => {
     if (valid) {
       loading.value = true
-      await userStore.fetchSubmitAPI(loginForm)
+      await userStore.fetchSubmitAPI(formValue.value)
       await userStore.fetchUserInfoAPI()
-
       NotificationBox({ title: `登录成功!` })
       loading.value = false
       router.push('/')
@@ -100,7 +123,7 @@ const submit = () => {
 // 回车登录
 const onKeyUp = (e: KeyboardEvent) => {
   if (e.key === 'Enter') {
-    // 登录按钮
+    console.log(formValue.value)
     submit()
     console.log('按下了回车')
   }

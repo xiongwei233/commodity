@@ -1,5 +1,5 @@
 <template>
-  <div class="notice" v-loading="loading">
+  <div class="notice">
     <el-card shadow="never">
       <template #header>
         <div class="flex justify-between items-center">
@@ -13,124 +13,96 @@
         </div>
       </template>
 
-      <!-- tab -->
-      <el-table :data="noticeStore?.noticeList?.list" stripe border lazy>
-        <el-table-column prop="title" label="公告标题" />
-        <el-table-column prop="content" label="公告内容" min-width="200px" />
-        <el-table-column prop="create_time" label="发布时间" />
-        <el-table-column prop="address" label="操作">
-          <template #default="{ row }">
-            <el-button link type="primary" size="small" @click="editNotice(row)">修改</el-button>
-            <el-popconfirm
-              title="是否要删除该公告信息？"
-              confirm-button-text="确定"
-              cancel-button-text="取消"
-              @confirm="deleteNotice(row)"
-            >
-              <template #reference>
-                <el-button link type="primary" size="small">删除</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <footer class="mt-5 flex items-center justify-center">
-        <!-- 分页 -->
-        <el-pagination
-          hide-on-single-page
-          :current-page="currentPage"
-          background
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange"
-          :page-count="calcPage"
-        />
-      </footer>
+      <!-- 表格 -->
+      <common-table
+        :data="data"
+        stripe
+        border
+        lazy
+        :options="tableOptions"
+        :currentPage="currentPage"
+        :total="total"
+        @currentChange="currentChange"
+        :paginationOptions="paginationOptions"
+        pagination
+        :loading="loading"
+      >
+        <!-- 操作项 -->
+        <template #actions="{ scope }">
+          <el-button link type="primary" size="small" @click="editNoticeShow(scope.row)">
+            修改
+          </el-button>
+          <el-popconfirm
+            title="是否要删除该公告信息？"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            @confirm="deleteNotice(scope.row)"
+          >
+            <template #reference>
+              <el-button link type="primary" size="small">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </common-table>
+      <!--  -->
     </el-card>
 
-    <global-drawer
-      size="40%"
-      ref="addNotice_DrawerRef"
-      :title="`${isAddOrEdit ? '修改' : '添加'}公告信息`"
-      @opened="addNotice_DrawerOpened"
-      @closed="addNotice_DrawerClosed"
-      @submit="addNoticeFn"
-    >
-      <el-form
-        :model="addNoticeForm"
-        ref="addNotice_FormRef"
-        :rules="addNoticeRules"
-        label-width="80px"
-        :inline="false"
-      >
-        <animation-lottie ref="addNotice_animationRef" class="!w-96 !h-96"></animation-lottie>
-        <el-form-item label="公告标题" prop="title">
-          <el-input
-            v-model="addNoticeForm.title"
-            maxlength="50"
-            show-word-limit
-            placeholder="请输入公告标题"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="公告内容" prop="content">
-          <el-input
-            type="textarea"
-            v-model="addNoticeForm.content"
-            :rows="4"
-            placeholder="请输入公告内容"
-            show-word-limit
-            maxlength="300"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-    </global-drawer>
+    <!-- 弹窗 -->
+    <notice-drawer ref="noticeDrawerRef" @update-table="updateTableFn"></notice-drawer>
   </div>
 </template>
 
 <script lang="ts">
 import { useNoticeStore } from '@/stores/modules/notice'
+import { NotificationBox } from '@/utils/element-Fun'
 
-import GlobalDrawer from '@/components/global-drawer.vue'
-import AnimationLottie from '@/components/animation-lottie.vue'
+import CommonTable from '@/components/common-table/index.vue'
+import NoticeDrawer from './compo/notice-drawer.vue'
 
 import type { addNotice_Data } from '@/services/module/types/notice.type'
-import { editOrAddFunction } from './compo/hooks/useNotice'
-import { NotificationBox } from '@/utils/element-Fun'
+import type { TableOptions } from '@/components/common-table/types/types'
+import { computed, ref } from 'vue'
 </script>
 
 <script setup lang="ts">
 const noticeStore = useNoticeStore()
+// ?? 0 解决刚进页面 total值为undefined , pagination分页报警告 ⚠️
+const total = computed(() => noticeStore?.noticeList.totalCount ?? 0)
+const data = computed(() => noticeStore?.noticeList?.list)
 
-/**
- * 新增/修改/分页
- */
-const {
-  listFnAPI,
+const currentPage = ref<number>(1)
+const loading = ref<boolean>()
+const noticeDrawerRef = ref<InstanceType<typeof NoticeDrawer>>()
 
-  currentPage,
-  calcPage,
-  handleCurrentChange,
+const listFnAPI = () => {
+  loading.value = true
+  noticeStore.fetch_getNoticeAPI(currentPage.value).finally(() => (loading.value = false))
+}
+listFnAPI()
 
-  addNoticeShow,
-  addNoticeRules,
-  addNoticeForm,
+// 表单的配置
+const tableOptions: TableOptions[] = [
+  { label: '公告标题', prop: 'title' },
+  { label: '公告内容', prop: 'content', minWidth: '150px' },
+  { label: '发布时间', prop: 'create_time' },
+  { label: '操作', prop: 'address', action: true }
+]
 
-  addNotice_DrawerRef,
-  addNotice_FormRef,
-  addNotice_animationRef,
+// 分页的配置
+let paginationOptions = {
+  background: true,
+  // hideOnSinglePage: true,
+  layout: 'total, prev, pager, next, jumper'
+}
 
-  addNotice_DrawerOpened,
-  addNotice_DrawerClosed,
+// 页数改变
+const currentChange = (val: number) => {
+  //console.log(`当前第${val}页`)
+  currentPage.value = val
+  listFnAPI()
+}
 
-  loading,
-  editNotice,
-  isAddOrEdit,
-  addNoticeFn
-} = editOrAddFunction()
-
-/**
- * 删除
- */
+// 删除
 const deleteNotice = (item: addNotice_Data) => {
   //console.log(item)
   loading.value = true
@@ -141,6 +113,27 @@ const deleteNotice = (item: addNotice_Data) => {
       NotificationBox({ title: `删除成功!` })
     })
     .finally(() => (loading.value = false))
+}
+
+// 新增
+const addNoticeShow = () => {
+  noticeDrawerRef.value?.addNotice()
+}
+// 修改
+const editNoticeShow = (row: addNotice_Data) => {
+  noticeDrawerRef.value?.editNotice(row)
+}
+
+// 子组件传来的 修改/新增数据之后更新表单
+const updateTableFn = async (editOrAdd: number) => {
+  // 判断添加还是修改 添加是0 修改是1
+  if (editOrAdd) {
+    //添加表单数据之后返回第一页
+    currentPage.value = 1
+    await listFnAPI()
+  } else {
+    await listFnAPI()
+  }
 }
 </script>
 

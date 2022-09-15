@@ -25,6 +25,7 @@ export interface imageCategory_List {
   create_time: string
   update_time: string
   image_class_id: number
+  checked?: boolean
 }
 
 export interface imageCategory_Data {
