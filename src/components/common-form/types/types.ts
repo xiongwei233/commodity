@@ -7,23 +7,18 @@ import type { RuleItem } from './rule'
 // 表单每一项的配置选项
 export interface FormOptions {
   // 表单项显示的元素
-  type:
+  type?:
     | 'autocomplete'
     | 'cascader'
     | 'cascader-panel'
     | 'checkbox'
-    | 'checkbox-group'
-    | 'checkbox-button'
     | 'color-picker'
     | 'date-picker'
     | 'input'
     | 'input-number'
     | 'radio-group'
-    | 'radio'
-    | 'radio-button'
     | 'rate'
     | 'select'
-    | 'option'
     | 'select-v2'
     | 'slider'
     | 'switch'
@@ -58,26 +53,13 @@ export interface FormOptions {
     suffixIcon?: string | Component
   }
 
+  // cascader 表单的配置
+  cascaderOptions?: {}
+  radioOptions?: {
+    border: boolean
+  }
+
   // 表单项的子元素
   children?: FormOptions[]
-
-  // 单独处理上传组件的属性和方法
-  //uploadAttrs?: {
-  //  action: string
-  //  headers?: object
-  //  method?: 'post' | 'put' | 'patch'
-  //  multiple?: boolean
-  //  data?: any
-  //  name?: string
-  //  withCredentials?: boolean
-  //  showFileList?: boolean
-  //  drag?: boolean
-  //  accept?: string
-  //  thumbnailMode?: boolean
-  //  fileList?: any[]
-  //  listType?: 'text' | 'picture' | 'picture-card'
-  //  autoUpload?: boolean
-  //  disabled?: boolean
-  //  limit?: number
-  //}
+  childrenType?: 'checkbox-group' | 'checkbox-button' | 'radio' | 'radio-button' | 'option'
 }

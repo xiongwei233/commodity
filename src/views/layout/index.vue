@@ -30,9 +30,9 @@
 </template>
 
 <script lang="ts">
-import AppTagList from './compo/app-tagList.vue'
-import AppHeaders from './compo/app-headers.vue'
-import AppMenu from './compo/app-menu.vue'
+import AppTagList from './components/app-tagList.vue'
+import AppHeaders from './components/app-headers.vue'
+import AppMenu from './components/app-menu.vue'
 
 import { useUserStore } from '@/stores/modules/user'
 </script>

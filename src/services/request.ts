@@ -53,7 +53,7 @@ services.interceptors.response.use(
 
     const msg = error.response?.data?.msg || '请求失败'
 
-    if (error.response.state === 401 || 400) {
+    if (error.response?.state === 401 || 400) {
       NotificationBox({ title: '请求失败', message: msg, type: 'warning' })
     }
 

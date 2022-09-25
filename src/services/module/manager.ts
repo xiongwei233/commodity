@@ -8,7 +8,7 @@ import type { notice_global } from './types/notice.type'
  * @params keyword 管理员账户
  * @returns promise
  */
-export type managerList_queryType = { limit?: number; page?: number; keyword: string }
+export type managerList_queryType = { limit?: number; page?: number; keyword?: string }
 type getManagerType = ({ limit, page, keyword }: managerList_queryType) => Promise<manager_Type>
 export const getManagerAPI: getManagerType = ({ limit = 10, keyword = 1, page }) =>
   request.get(`/admin/manager/${page}`, {

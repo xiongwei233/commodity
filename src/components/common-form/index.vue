@@ -7,6 +7,8 @@
     :rules="rules"
     :validate-on-rule-change="false"
   >
+    <!-- 需要插入的内容 -->
+    <slot name="header"></slot>
     <template v-for="(item, index) in options" :key="index">
       <!-- 只有一级标签 -->
       <el-form-item
@@ -16,23 +18,17 @@
       >
         <!-- input输入框-->
         <component
-          v-if="item.type === 'input'"
           :is="`el-${item.type}`"
           :type="item?.attrs?.inputType"
           v-bind="item.attrs"
-          v-model.trim="model[item.prop!]"
+          v-model="model[item.prop!]"
           :prefix-icon="item.attrs?.prefixicon"
           :suffix-icon="item.attrs?.suffixIcon"
         >
         </component>
-
-        <component
-          v-else
-          :is="`el-${item.type}`"
-          v-bind="item.attrs"
-          v-model.trim="model[item.prop!]"
-        >
-        </component>
+        <!--
+        <component v-else :is="`el-${item.type}`" v-bind="item.attrs" v-model="model[item.prop!]">
+        </component>-->
       </el-form-item>
 
       <!-- 嵌套标签 -->
@@ -46,13 +42,15 @@
           <component
             v-for="(child, i) in item.children"
             :key="i"
-            :is="`el-${child.type}`"
+            :is="`el-${item.childrenType}`"
             :label="child.label"
             :value="child.value"
           ></component>
         </component>
       </el-form-item>
     </template>
+
+    <slot name="footer"></slot>
 
     <!-- 自定义插槽  可以用来放button-->
     <el-form-item>
@@ -122,11 +120,16 @@ export default {
 </script>
 
 <script setup lang="ts">
-const props = defineProps<{
-  // 表单的配置
-  options: FormOptions[]
-  modelValue?: Object | string | number
-}>()
+const props = withDefaults(
+  defineProps<{
+    // 表单的配置
+    options: FormOptions[]
+    modelValue: Object
+  }>(),
+  {
+    modelValue: () => ({})
+  }
+)
 // 返回表单数据
 const emits = defineEmits(['update:modelValue'])
 

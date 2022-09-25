@@ -11,16 +11,17 @@ const user = () => import('@/views/user/user.vue')
 const order = () => import('@/views/order/order.vue')
 
 //管理员管理
-const manager = () => import('@/views/manager/manager.vue')
-const access = () => import('@/views/manager/access.vue')
+const manager = () => import('@/views/manager/manager/manager.vue')
+const access = () => import('@/views/manager/access/access.vue')
+const role = () => import('@/views/manager/role/role.vue')
 
 //系统设置
 const base = () => import('@/views/setting/base.vue')
 
 // 分销模块
 //其他模块
-const image = () => import('@/views/other/image.vue')
-const notice = () => import('@/views/other/notice.vue')
+const image = () => import('@/views/other/image/image.vue')
+const notice = () => import('@/views/other/notice/notice.vue')
 
 // 动态路由，用于匹配菜单动态添加路由
 export const asyncRoutes = [
@@ -96,6 +97,15 @@ export const asyncRoutes = [
       title: '权限管理'
     }
   },
+  {
+    path: '/role/list',
+    name: '/role/list',
+    component: role,
+    meta: {
+      title: '角色管理'
+    }
+  },
+
   //系统设置
   {
     path: '/setting/base',

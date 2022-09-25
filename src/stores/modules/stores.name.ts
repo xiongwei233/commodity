@@ -5,7 +5,10 @@ export const enum Names {
   HOME = 'HOME',
   IMAGE = 'IMAGE',
   NOTICE = 'NOTICE',
-  MANAGER = 'MANAGER'
+  MANAGER = 'MANAGER',
+  ACCESS = 'ACCESS',
+  ROLE = 'ROLE',
 
   // 公共的 store
+  GLOBAL_TABLE = 'global_Table'
 }

@@ -35,8 +35,8 @@
 <script lang="ts">
 import { ref } from 'vue'
 
-import ImageAside from '@/views/other/compo/image-aside.vue'
-import ImageMain from '@/views/other/compo/image-main.vue'
+import ImageAside from '@/views/other/image/components/image-aside.vue'
+import ImageMain from '@/views/other/image/components/image-main.vue'
 
 import type { imageCategory_List } from '@/services/module/types/image.type'
 </script>

@@ -26,13 +26,16 @@ export default ({ mode }: ConfigEnv) => {
       vue(),
       vueJsx(),
       AutoImport({
-        resolvers: [ElementPlusResolver()]
+        imports: ['vue', 'vue-router'],
+        resolvers: [ElementPlusResolver()],
+        dts: './types/auto-imports.d.ts'
       }),
       Components({
-        resolvers: [ElementPlusResolver()]
+        resolvers: [ElementPlusResolver()],
+        dts: './types/components.d.ts'
       }),
-      WindiCSS(),
 
+      WindiCSS(),
       createHtmlPlugin({
         inject: {
           data: {
