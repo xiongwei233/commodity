@@ -1,5 +1,6 @@
 import {
   addeGlobalTableAPI,
+  batchDeleteGlobalTableAPI,
   deleteGlobalTableAPI,
   editeGlobalStatusAPI,
   editeGlobalTableAPI,
@@ -7,6 +8,7 @@ import {
 } from '@/services/module/globalTable'
 import type {
   addQueryType,
+  batchDeleteQueryType,
   DeleteQueryType,
   editQueryType,
   GetQueryType,
@@ -41,8 +43,8 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
     roleCount: <number>0,
 
     // goods
-    menuList: <any[]>[],
-    menuCount: <number>0
+    skusList: <any[]>[],
+    skusCount: <number>0
   }),
   getters: {},
   actions: {
@@ -61,9 +63,9 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
         case 'role':
           pageUrl = '/admin/role'
           break
-        //case 'menu':
-        //  pageUrl = '/menu/list'
-        //  break
+        case 'skus':
+          pageUrl = '/admin/skus'
+          break
       }
       //console.log(pageUrl)
 
@@ -87,10 +89,10 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           this.roleList = pageResult.data.list
           this.roleCount = pageResult.data.totalCount
           break
-        //case 'menu':
-        //  this.menuList = pageResult.data.list
-        //  this.menuCount = pageResult.data.totalCount
-        //  break
+        case 'skus':
+          this.skusList = pageResult.data.list
+          this.skusCount = pageResult.data.totalCount
+          break
       }
       //console.log(pageResult)
     },
@@ -160,6 +162,26 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
       // 2. 调用新建数据的请求
       this.loading = true
       await editeGlobalStatusAPI(pageUrl, status).finally(() => (this.loading = false))
+
+      // 3.重新请求最新的数据
+      this.getTableList_fetch({
+        pageName,
+        // 可以把 页面的这些数据共享到pinia 到时候可以拿到实时的
+        queryInfo: { page: 1, limit: 10 }
+      })
+    },
+
+    // 批量删除列表
+    async batchDelete_fetch(data: batchDeleteQueryType) {
+      // 1.获取pageName和id
+      // pageName=> /users
+      // id => users/id
+      const { pageName, ids } = data
+      const pageUrl = `/admin/${pageName}/delete_all`
+
+      // 2. 调用删除数据的请求
+      this.loading = true
+      await batchDeleteGlobalTableAPI(pageUrl, { ids }).finally(() => (this.loading = false))
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({

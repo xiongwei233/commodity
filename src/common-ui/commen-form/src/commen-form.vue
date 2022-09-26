@@ -4,7 +4,7 @@
       <slot name="header"></slot>
     </div>
 
-    <el-form ref="ruleFormRef" :label-width="labelWidth" status-icon :model="modelValue">
+    <el-form ref="FormRef" :label-width="labelWidth" status-icon :model="modelValue">
       <el-row :gutter="20">
         <template v-for="item in formOptions" :key="item.label">
           <el-col v-bind="layoutReactive">
@@ -86,10 +86,11 @@
 
 <script lang="ts">
 import 'element-plus/dist/index.css'
-import { ElSwitch } from 'element-plus'
+import { ElSwitch, ElInputNumber, type FormInstance } from 'element-plus'
 export default {
   components: {
-    ElSwitch
+    ElSwitch,
+    ElInputNumber
   }
 }
 </script>
@@ -117,6 +118,8 @@ const props = withDefaults(
 )
 const emits = defineEmits(['update:modelValue'])
 
+const FormRef = ref<FormInstance>()
+
 // 方法1：上面的HTML配套需要使用v-model绑定的数据是formDate
 //看视频 40级-还剩2h18分
 // 表单绑定的值,浅拷贝,有问题就改深拷贝
@@ -129,6 +132,10 @@ const handleValueChange = (value: string, field: any) => {
   // value 是输入的值，field是表单名，{ [field]: value } 把两个拼在一起
   emits('update:modelValue', { ...props.modelValue, [field]: value })
 }
+
+defineExpose({
+  FormRef
+})
 </script>
 
 <style scoped lang="less">

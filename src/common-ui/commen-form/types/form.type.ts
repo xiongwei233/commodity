@@ -40,16 +40,17 @@ export interface IFormItem {
 
   style?: CSSProperties
 
+  // 插槽
+  slotName?: string
+
   // input的私有属性
   inputAttrs?: {
     maxlength?: number
     showWordLimit?: boolean
     rows?: number
   }
-
   //select的option的数据
   options?: any[]
-
   // 其他组件特殊的属性
   otherOptions?: any
 }

@@ -31,3 +31,10 @@ export function editeGlobalTableAPI(url: string, editDate: any) {
 export function editeGlobalStatusAPI(url: string, editDate: any) {
   return request.post(url, { ...editDate })
 }
+
+// 批量删除列表
+// url: /users/id
+export function batchDeleteGlobalTableAPI(url: string, ids: { ids: number[] }) {
+  console.log(ids)
+  return request.post(url, ids)
+}

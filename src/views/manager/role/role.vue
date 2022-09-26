@@ -25,7 +25,6 @@
       pageName="role"
       ref="dialogPageRef"
     >
-      <template #status> 222 </template>
     </dialog-page>
 
     <!-- 配置权限弹窗 -->

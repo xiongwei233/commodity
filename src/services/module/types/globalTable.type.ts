@@ -37,3 +37,9 @@ export type statusQueryType = {
     status: 0 | 1 | number
   }
 }
+
+// 批量删除
+export type batchDeleteQueryType = {
+  pageName: string
+  ids: number[]
+}

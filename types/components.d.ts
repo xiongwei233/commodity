@@ -80,6 +80,7 @@ declare module '@vue/runtime-core' {
     GlobalDrawer: typeof import('./../src/components/global-drawer.vue')['default']
     Lottie: typeof import('./src/components/lottie.vue')['default']
     MFrom: typeof import('./src/components/mFrom/index.vue')['default']
+    NewTag: typeof import('./../src/components/new-tag.vue')['default']
     PageModal: typeof import('./../src/components/dialog-page/src/page-modal.vue')['default']
     Popconfirm: typeof import('./../src/components/popconfirm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -6,6 +6,7 @@
       v-bind="tableConfig"
       :total="dataCount"
       v-model:page="pageInfo"
+      @selection-change="selectionChange"
     >
       <!-- headers中的插槽 -->
       <template #header>
@@ -17,7 +18,16 @@
             </el-button>
           </template>
           <template #form>
-            <slot name="search"></slot>
+            <!-- 批量删除 -->
+            <popconfirm
+              @confirm="batchDeleteFn"
+              title="是否要删除批量删除选中？"
+              v-if="showBatchDelete"
+            >
+              <el-button type="danger" size="default" :icon="Delete"> 批量删除 </el-button>
+            </popconfirm>
+
+            <slot name="search"> </slot>
           </template>
         </add-refresh>
       </template>
@@ -75,7 +85,7 @@ import AddRefresh from '@/components/add-refresh.vue'
 
 import { useGlobalStore } from '@/stores/modules/globalTable'
 
-import { Edit } from '@element-plus/icons-vue'
+import { Edit, Delete } from '@element-plus/icons-vue'
 import Popconfirm from '@/components/popconfirm.vue'
 </script>
 
@@ -90,6 +100,8 @@ const props = withDefaults(
     pageName: string
     // 添加表单按钮的名称
     addBtnName?: string
+    // 批量删除
+    showBatchDelete: boolean
 
     icon?: any
     showIcon?: boolean
@@ -98,12 +110,13 @@ const props = withDefaults(
   {
     addBtnName: '新增公告',
     showIcon: true,
-    switchDisabled: () => false
+    switchDisabled: () => false,
+    showBatchDelete: false
   }
 )
 const switchLoading = ref<boolean>(false)
 
-const emits = defineEmits(['addListClick', 'editListClick'])
+const emits = defineEmits(['addListClick', 'editListClick', 'selectionChange'])
 
 // 1.双向绑定的 分页内容 currentPage必须是0
 const pageInfo = ref({ currentPage: 1, pageSize: 10 })
@@ -136,9 +149,9 @@ const dataList = computed(() => {
     case 'role':
       data = globalStore.roleList
       break
-    //case 'menu':
-    //  data = systemSotre.menuList
-    //  break
+    case 'skus':
+      data = globalStore.skusList
+      break
   }
   return data
 })
@@ -156,9 +169,9 @@ const dataCount = computed(() => {
     case 'role':
       count = globalStore.roleCount
       break
-    //case 'menu':
-    //  count = systemSotre.menuCount
-    //  break
+    case 'skus':
+      count = globalStore.skusCount
+      break
   }
   return count
 })
@@ -186,6 +199,21 @@ const edtiStatus = (val: any, data: any) => {
   console.log(val, data)
   const status = val === 0 ? 1 : 0
   globalStore.editTableStatus_fetch({ id: data.id, pageName: props.pageName, status: { status } })
+}
+
+// 7.批量删除
+const selectionCheck = ref([])
+// 多选框改变
+const selectionChange = (selection: any) => {
+  selectionCheck.value = selection.map((item: any) => item.id)
+}
+// 点击批量删除
+const batchDeleteFn = () => {
+  console.log('BatchDeleteFn', selectionCheck.value)
+  globalStore.batchDelete_fetch({
+    pageName: props.pageName,
+    ids: selectionCheck.value
+  })
 }
 
 defineExpose({

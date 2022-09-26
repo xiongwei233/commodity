@@ -3,6 +3,7 @@ const home = () => import('@/views/home/index.vue')
 const goods = () => import('@/views/goods/goods.vue')
 const category = () => import('@/views/goods/category.vue')
 const coupon = () => import('@/views/goods/coupon.vue')
+const skus = () => import('@/views/goods/skus/skus.vue')
 
 // 用户管理
 const user = () => import('@/views/user/user.vue')
@@ -57,6 +58,14 @@ export const asyncRoutes = [
     component: coupon,
     meta: {
       title: '优惠券管理'
+    }
+  },
+  {
+    path: '/skus/list',
+    name: '/skus/list',
+    component: skus,
+    meta: {
+      title: '规格管理'
     }
   },
 
