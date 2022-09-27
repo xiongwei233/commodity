@@ -6,7 +6,8 @@ const coupon = () => import('@/views/goods/coupon/coupon.vue')
 const skus = () => import('@/views/goods/skus/skus.vue')
 
 // 用户管理
-const user = () => import('@/views/user/user.vue')
+const level = () => import('@/views/user/level/level.vue')
+const user = () => import('@/views/user/user/user.vue')
 
 // 订单管理
 const order = () => import('@/views/order/order.vue')
@@ -76,6 +77,14 @@ export const asyncRoutes = [
     component: user,
     meta: {
       title: '用户管理'
+    }
+  },
+  {
+    path: '/level/list',
+    name: '/level/list',
+    component: level,
+    meta: {
+      title: '会员等级'
     }
   },
 

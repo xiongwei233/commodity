@@ -50,7 +50,8 @@ export interface IFormItem {
     rows?: number
     slotText?: string
     slotPosition?: 'prepend' | 'append'
-    [slotPosition: string]: any
+    // 输入框下面的文字
+    bottomText?: string
   }
   //select的option的数据
   selectOptions?: any[]

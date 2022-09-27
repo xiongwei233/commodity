@@ -34,21 +34,29 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
     noticeCount: <number>0,
     loading: <boolean>false,
 
+    // 管理员管理
     // manager
     managerList: <any[]>[],
     managerCount: <number>0,
-
     // role
     roleList: <any[]>[],
     roleCount: <number>0,
 
+    // 商品管理
     // goods
     skusList: <any[]>[],
     skusCount: <number>0,
-
     // coupon
     couponList: <any[]>[],
-    couponCount: <number>0
+    couponCount: <number>0,
+
+    // 用户管理
+    // user
+    userList: <any[]>[],
+    userCount: <number>0,
+    // level
+    levelList: <any[]>[],
+    levelCount: <number>0
   }),
   getters: {},
   actions: {
@@ -61,17 +69,26 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
         case 'notice':
           pageUrl = '/admin/notice/'
           break
+
         case 'manager':
           pageUrl = '/admin/manager'
           break
         case 'role':
           pageUrl = '/admin/role'
           break
+
         case 'skus':
           pageUrl = '/admin/skus'
           break
         case 'coupon':
           pageUrl = '/admin/coupon'
+          break
+
+        case 'user_level':
+          pageUrl = '/admin/user_level'
+          break
+        case 'user':
+          pageUrl = '/admin/user'
           break
       }
       //console.log(pageUrl)
@@ -88,6 +105,7 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           this.noticeList = pageResult.data.list
           this.noticeCount = pageResult.data.totalCount
           break
+
         case 'manager':
           this.managerList = pageResult.data.list
           this.managerCount = pageResult.data.totalCount
@@ -96,6 +114,7 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           this.roleList = pageResult.data.list
           this.roleCount = pageResult.data.totalCount
           break
+
         case 'skus':
           this.skusList = pageResult.data.list
           this.skusCount = pageResult.data.totalCount
@@ -103,6 +122,15 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
         case 'coupon':
           this.couponList = pageResult.data.list
           this.couponCount = pageResult.data.totalCount
+          break
+
+        case 'user_level':
+          this.levelList = pageResult.data.list
+          this.levelCount = pageResult.data.totalCount
+          break
+        case 'user':
+          this.userList = pageResult.data.list
+          this.userCount = pageResult.data.totalCount
           break
       }
       //console.log(pageResult)
@@ -137,7 +165,7 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
     async addTableData_fetch(data: addQueryType) {
       // 1.获取pageName和添加数据
       const { pageName, newDate } = data
-      const pageUrl = `/admin/${pageName}`
+      let pageUrl = `/admin/${pageName}`
 
       // 2. 调用新建数据的请求
       this.loading = true

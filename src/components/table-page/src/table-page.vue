@@ -151,17 +151,26 @@ const dataList = computed(() => {
     case 'notice':
       data = globalStore.noticeList
       break
+
     case 'manager':
       data = globalStore.managerList
       break
     case 'role':
       data = globalStore.roleList
       break
+
     case 'skus':
       data = globalStore.skusList
       break
     case 'coupon':
       data = globalStore.couponList
+      break
+
+    case 'user_level':
+      data = globalStore.levelList
+      break
+    case 'user':
+      data = globalStore.userList
       break
   }
   //console.log(data)
@@ -175,17 +184,26 @@ const dataCount = computed(() => {
     case 'notice':
       count = globalStore.noticeCount
       break
+
     case 'manager':
       count = globalStore.managerCount
       break
     case 'role':
       count = globalStore.roleCount
       break
+
     case 'skus':
       count = globalStore.skusCount
       break
     case 'coupon':
       count = globalStore.couponCount
+      break
+
+    case 'user_level':
+      count = globalStore.levelCount
+      break
+    case 'user':
+      count = globalStore.userCount
       break
   }
   return count

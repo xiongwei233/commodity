@@ -32,6 +32,9 @@
                     {{ item.inputAttrs?.slotText }}
                   </template>
                 </el-input>
+                <small class="color:#e7e9ec" v-if="item.inputAttrs?.bottomText">
+                  {{ item.inputAttrs?.bottomText }}
+                </small>
               </template>
 
               <!-- select 选择器 -->
