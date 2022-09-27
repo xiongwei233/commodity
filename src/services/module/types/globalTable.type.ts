@@ -24,14 +24,14 @@ export type addQueryType = {
 
 // 修改
 export type editQueryType = {
-  id: string
+  id: string | number
   pageName: string
   editDate: any
 }
 
 // 修改状态
 export type statusQueryType = {
-  id: string
+  id: string | number
   pageName: string
   status: {
     status: 0 | 1 | number

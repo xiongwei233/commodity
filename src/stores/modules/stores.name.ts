@@ -9,7 +9,9 @@ export const enum Names {
   ACCESS = 'ACCESS',
   ROLE = 'ROLE',
   COUPON = 'COUPON',
+  RECOMMENDED = 'RECOMMENDED',
 
   // 公共的 store
-  GLOBAL_TABLE = 'global_Table'
+  GLOBAL_TABLE = 'global_Table',
+  GLOBAL_TREE = 'global_Tree'
 }

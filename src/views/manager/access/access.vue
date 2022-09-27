@@ -13,7 +13,12 @@
       </template>
 
       <!-- tree树 -->
-      <tree ref="treeRef" @edit-access="handleEditData" @increase-access="handleAddData"></tree>
+      <tree
+        ref="treeRef"
+        @edit-access="handleEditData"
+        @increase-access="handleAddData"
+        pageName="access"
+      ></tree>
     </el-card>
 
     <!-- 弹窗 -->
@@ -35,7 +40,7 @@ import { useAccessStore } from '@/stores/modules/access'
 import { UserFilled } from '@element-plus/icons-vue'
 
 // tree
-import Tree from './components/tree.vue'
+import Tree from '@/components/tree.vue'
 
 // 弹窗
 import DialogCustom from '@/components/dialog-custom'
@@ -48,6 +53,7 @@ import { NotificationBox } from '@/utils/element-Fun'
 
 <script setup lang="ts">
 const accessStore = useAccessStore()
+accessStore.fetch_getAccessAPI()
 
 const loading = ref<boolean>(false)
 
@@ -120,10 +126,6 @@ const { dialogPageRef, defaultInfo, handleAddData, handleEditData } = usePageMod
 .access-list {
   :deep(.el-card__header) {
     border-bottom: none !important;
-  }
-  :deep(.popconfirm-icon) {
-    font-size: 14px;
-    padding-left: 20px;
   }
 }
 </style>

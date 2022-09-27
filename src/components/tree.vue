@@ -1,11 +1,11 @@
 <template>
   <div class="tree">
     <el-tree
-      :data="data"
-      :props="defaultProps"
+      :data="treeList"
+      :props="{ children: 'child', label: 'name' }"
       node-key="id"
       :default-expanded-keys="defaultExpandedKeys"
-      v-loading="loading"
+      v-loading="globalTreeStore.loading"
       render-after-expand
       highlight-current
       :check-strictly="checkStrictly"
@@ -16,19 +16,20 @@
       <template #default="{ node, data }">
         <span class="custom-tree-node">
           <div class="left">
-            <el-tag class="tag" :type="data.menu ? '' : 'info'" size="small">
-              {{ data.menu ? '菜单' : '权限' }}
-            </el-tag>
-
-            <el-icon v-if="data.icon">
-              <component :is="data.icon"></component>
-              <!--<component is="edit"></component>-->
-            </el-icon>
+            <template v-if="showTitleIcon">
+              <el-tag class="tag" :type="data.menu ? '' : 'info'" size="small">
+                {{ data.menu ? '菜单' : '权限' }}
+              </el-tag>
+              <el-icon v-if="data.icon">
+                <component :is="data.icon"></component>
+              </el-icon>
+            </template>
 
             <span>{{ data.name }}</span>
           </div>
 
           <div class="right" @click.stop v-if="showActions">
+            <slot name="treeActions" :row="data"></slot>
             <el-switch
               :model-value="data.status"
               :active-value="1"
@@ -58,18 +59,15 @@
 
 <script lang="ts">
 import type { access_List } from '@/services/module/types/access.type'
-import { useAccessStore } from '@/stores/modules/access'
+import { useGlobalTreeStore } from '@/stores/modules/globalTree'
 
 import Popconfirm from '@/components/popconfirm.vue'
-import { NotificationBox } from '@/utils/element-Fun'
-
 import type { ElTree } from 'element-plus'
 </script>
 
 <script setup lang="ts">
-const accessStore = useAccessStore()
-const data = computed(() => accessStore.accessLst)
-const loading = ref<boolean>(false)
+const globalTreeStore = useGlobalTreeStore()
+
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
 const props = withDefaults(
@@ -77,48 +75,59 @@ const props = withDefaults(
     showActions?: boolean
     showCheckbox?: boolean
     checkStrictly?: boolean
+    showTitleIcon?: boolean
+    // 名称
+    pageName: string
   }>(),
   {
     showActions: true,
     showCheckbox: false,
-    checkStrictly: false
+    checkStrictly: false,
+    showTitleIcon: true
   }
 )
 
 const emits = defineEmits(['editAccess', 'increaseAccess', 'checkChange'])
 
 // tree默认展开
-const defaultExpandedKeys = computed(() => data.value.map((item) => item.id))
+const defaultExpandedKeys = computed(() => treeList.value?.map((item) => item.id))
 
-// 数据刷新
-const updateTable = async () => {
-  loading.value = true
-  await accessStore.fetch_getAccessAPI().finally(() => (loading.value = false))
+// 1.查询用户列表-- 发生网络请求
+const updateTable = () => {
+  globalTreeStore.gerTreeList_fetch({ pageName: props.pageName })
 }
+updateTable()
 
-// tree 的 配置
-const defaultProps = {
-  children: 'child',
-  label: 'name'
-}
+// 2.从pinia获取数据
+// 列表数据
+const treeList = computed(() => {
+  let data: any[] = []
+  switch (props.pageName) {
+    case 'access':
+      data = globalTreeStore.accessTreeList
+      break
+    case 'category':
+      data = globalTreeStore.categoryTreeList
+      break
+  }
+  return data
+})
 
 // 删除
 const deleteAccess = async (data: access_List) => {
-  loading.value = true
-  await accessStore.fetch_deleteAccessAPI(data.id).finally(() => (loading.value = false))
-  NotificationBox({ title: `删除成功!` })
-  updateTable()
+  globalTreeStore.deleteTreeList_fetch({
+    pageName: props.pageName,
+    id: data.id
+  })
 }
 
 // 状态
 const statusChange = async (val: any, data: access_List) => {
-  loading.value = true
-  try {
-    await accessStore.fetch_statusAccessAPI(data.id, val)
-    NotificationBox({ title: `修改状态成功!` })
-    updateTable()
-  } catch (error) {}
-  loading.value = false
+  globalTreeStore.editTableState_fetch({
+    id: data.id,
+    pageName: props.pageName,
+    status: { status: val }
+  })
 }
 
 // 修改
@@ -159,14 +168,19 @@ defineExpose({
       }
     }
     .right {
-      .el-switch {
-        margin-right: 10px;
+      font-size: 12px;
+      & > * {
+        margin: 0 20px;
       }
-      .el-link {
-        padding: 0 10px;
-      }
+      //.el-switch {
+      //  margin-right: 10px;
+      //}
+      //.el-link {
+      //  padding: 0 10px;
+      //}
       :deep(.el-link__inner) {
-        margin-left: 30px;
+        //margin-left: 30px;
+        font-size: 12px;
       }
     }
   }

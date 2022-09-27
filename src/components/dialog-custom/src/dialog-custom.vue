@@ -2,7 +2,7 @@
   <div class="page-modal">
     <el-dialog
       :title="isEditOrAdd ? `修改${title}` : `添加${title}`"
-      width="40%"
+      :width="width"
       :top="dialogTop"
       v-model="dialogVisible"
       center
@@ -16,7 +16,7 @@
       <template #footer>
         <span>
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleConfirmClick">确定</el-button>
+          <el-button type="primary" @click="handleConfirmClick">{{ confirmBtnText }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -24,24 +24,21 @@
 </template>
 
 <script lang="ts">
-import { useGlobalStore } from '@/stores/modules/globalTable'
-
 import AnimationLottie from '@/components/animation-lottie.vue'
 import manager from '@/assets/animation/manager.json'
 </script>
 
 <script setup lang="ts">
-const globalStore = useGlobalStore()
-
 const props = withDefaults(
   defineProps<{
     // 名字
-    pageName: string
     title?: string
     dialogTop?: string
+    width?: string
+    confirmBtnText?: string
 
     // 判断修改还是添加
-    defaultInfo: object
+    defaultInfo?: object
     //是否开启动画
     showAnimate?: boolean
     // 动画的内容
@@ -51,7 +48,9 @@ const props = withDefaults(
     defaultInfo: () => ({}),
     animate: manager,
     showAnimate: true,
-    title: ''
+    title: '',
+    width: '40%',
+    confirmBtnText: '确定'
   }
 )
 const emits = defineEmits(['dialogOpen', 'dialogClose', 'confirm'])

@@ -89,6 +89,7 @@ declare module '@vue/runtime-core' {
     Src: typeof import('./src/components/form/src/index.vue')['default']
     Table: typeof import('./src/components/table/index.vue')['default']
     TablePage: typeof import('./../src/components/table-page/src/table-page.vue')['default']
+    Tree: typeof import('./../src/components/tree.vue')['default']
     UpdateFile: typeof import('./src/components/update-file.vue')['default']
     UpdateImages: typeof import('./src/components/update-images.vue')['default']
     UploadFile: typeof import('./../src/components/upload-file.vue')['default']

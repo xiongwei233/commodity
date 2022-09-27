@@ -14,12 +14,13 @@ type NotificationBoxType = {
   message?: string
   duration?: number
 }
+
 export const NotificationBox = ({
   title,
   type = 'success',
   message,
   duration = 2000
-}: NotificationBoxType) => {
+}: NotificationBoxType): void => {
   ElNotification({
     title,
     type,

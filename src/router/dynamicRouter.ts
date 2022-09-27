@@ -1,7 +1,7 @@
 const home = () => import('@/views/home/index.vue')
 // 商品管理
 const goods = () => import('@/views/goods/goods.vue')
-const category = () => import('@/views/goods/category.vue')
+const category = () => import('@/views/goods/catrgory/category.vue')
 const coupon = () => import('@/views/goods/coupon/coupon.vue')
 const skus = () => import('@/views/goods/skus/skus.vue')
 

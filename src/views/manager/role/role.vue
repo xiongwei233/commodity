@@ -45,6 +45,7 @@
         show-checkbox
         @check-change="checkChangeFn"
         check-strictly
+        pageName="access"
       ></tree>
     </dialog-custom>
   </div>
@@ -66,7 +67,7 @@ import { usePageModal } from '@/hooks/useTable_AddorEdit'
 import { User } from '@element-plus/icons-vue'
 import type { role_type, set_rulesType } from '@/services/module/types/role.type'
 import DialogCustom from '@/components/dialog-custom/src/dialog-custom.vue'
-import Tree from '../access/components/tree.vue'
+import Tree from '@/components/tree.vue'
 
 import { menuMapLeafKeys } from '@/hooks/useMapMenu'
 import { useAccessStore } from '@/stores/modules/access'
