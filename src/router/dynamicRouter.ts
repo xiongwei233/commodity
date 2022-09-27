@@ -2,7 +2,7 @@ const home = () => import('@/views/home/index.vue')
 // 商品管理
 const goods = () => import('@/views/goods/goods.vue')
 const category = () => import('@/views/goods/category.vue')
-const coupon = () => import('@/views/goods/coupon.vue')
+const coupon = () => import('@/views/goods/coupon/coupon.vue')
 const skus = () => import('@/views/goods/skus/skus.vue')
 
 // 用户管理

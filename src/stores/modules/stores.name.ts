@@ -8,6 +8,7 @@ export const enum Names {
   MANAGER = 'MANAGER',
   ACCESS = 'ACCESS',
   ROLE = 'ROLE',
+  COUPON = 'COUPON',
 
   // 公共的 store
   GLOBAL_TABLE = 'global_Table'

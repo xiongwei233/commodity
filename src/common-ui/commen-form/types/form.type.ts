@@ -48,11 +48,16 @@ export interface IFormItem {
     maxlength?: number
     showWordLimit?: boolean
     rows?: number
+    slotText?: string
+    slotPosition?: 'prepend' | 'append'
+    [slotPosition: string]: any
   }
   //select的option的数据
-  options?: any[]
+  selectOptions?: any[]
   // 其他组件特殊的属性
   otherOptions?: any
+  // Radio单选框
+  radioOptions?: any[]
 }
 
 // 组件接受的参数

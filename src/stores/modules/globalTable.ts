@@ -44,7 +44,11 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
     // goods
     skusList: <any[]>[],
-    skusCount: <number>0
+    skusCount: <number>0,
+
+    // coupon
+    couponList: <any[]>[],
+    couponCount: <number>0
   }),
   getters: {},
   actions: {
@@ -65,6 +69,9 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           break
         case 'skus':
           pageUrl = '/admin/skus'
+          break
+        case 'coupon':
+          pageUrl = '/admin/coupon'
           break
       }
       //console.log(pageUrl)
@@ -93,6 +100,10 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           this.skusList = pageResult.data.list
           this.skusCount = pageResult.data.totalCount
           break
+        case 'coupon':
+          this.couponList = pageResult.data.list
+          this.couponCount = pageResult.data.totalCount
+          break
       }
       //console.log(pageResult)
     },
@@ -107,7 +118,12 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
       // 2. 调用删除数据的请求
       this.loading = true
-      await deleteGlobalTableAPI(pageUrl).finally(() => (this.loading = false))
+      try {
+        await deleteGlobalTableAPI(pageUrl)
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({
@@ -125,7 +141,12 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
       // 2. 调用新建数据的请求
       this.loading = true
-      await addeGlobalTableAPI(pageUrl, newDate).finally(() => (this.loading = false))
+      try {
+        await addeGlobalTableAPI(pageUrl, newDate)
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({
@@ -143,7 +164,13 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
       // 2. 调用新建数据的请求
       this.loading = true
-      await editeGlobalTableAPI(pageUrl, editDate).finally(() => (this.loading = false))
+
+      try {
+        await editeGlobalTableAPI(pageUrl, editDate)
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({
@@ -161,7 +188,12 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
       // 2. 调用新建数据的请求
       this.loading = true
-      await editeGlobalStatusAPI(pageUrl, status).finally(() => (this.loading = false))
+      try {
+        await editeGlobalStatusAPI(pageUrl, status)
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({
@@ -181,7 +213,12 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
 
       // 2. 调用删除数据的请求
       this.loading = true
-      await batchDeleteGlobalTableAPI(pageUrl, { ids }).finally(() => (this.loading = false))
+      try {
+        await batchDeleteGlobalTableAPI(pageUrl, { ids })
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
 
       // 3.重新请求最新的数据
       this.getTableList_fetch({

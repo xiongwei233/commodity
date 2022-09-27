@@ -48,13 +48,11 @@ watch(
     dynamicTags.value = val
   }
 )
-
 // tag标签的关闭
 const handleClose = (tag: string) => {
   // 防止输入的重复，重复输入的直接替换掉
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
 }
-
 // 点击 new tag
 const showInput = () => {
   inputVisible.value = true
@@ -62,7 +60,6 @@ const showInput = () => {
     InputRef.value!.input!.focus()
   })
 }
-
 // tag的input 失去焦点或者按下enter
 const handleInputConfirm = () => {
   if (inputValue.value) {
@@ -71,7 +68,6 @@ const handleInputConfirm = () => {
   inputVisible.value = false
   inputValue.value = ''
 }
-
 watch(
   () => dynamicTags.value,
   (val) => {

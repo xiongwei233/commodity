@@ -23,7 +23,13 @@
       >
         <template #default>
           <div>
-            <el-form-item class="skusTags ml-3" label="规格值">
+            <el-form-item
+              class="skusTags ml-3"
+              label="规格值"
+              :rules="formValidate.dynamicTags"
+              :show-message="useCaseChange"
+              prop="dynamicTags"
+            >
               <new-tag v-model="dynamicTags"></new-tag>
             </el-form-item>
           </div>
@@ -42,6 +48,8 @@ import { skusTableConfig } from './config/skus.config'
 import DialogPage from '@/components/dialog-page/src/dialog-page.vue'
 import { modalConfig } from './config/dialog.config'
 import NewTag from '@/components/new-tag.vue'
+
+import formValidate from './config/dialog.validate'
 
 import { usePageModal } from '@/hooks/useTable_AddorEdit'
 </script>
@@ -69,6 +77,14 @@ const { dialogPageRef, defaultInfo, handleAddData, handleEditData } = usePageMod
   addDialog,
   editDialog
 )
+
+const useCaseChange = computed(() => {
+  if (dynamicTags.value.length > 0) {
+    return false
+  } else {
+    return true
+  }
+})
 </script>
 
 <style scoped lang="less"></style>

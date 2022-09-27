@@ -27,7 +27,11 @@
                   :model-value="modelValue[item.field]"
                   v-bind="item.inputAttrs"
                   @update:model-value="handleValueChange($event, item.field)"
-                />
+                >
+                  <template #[item.inputAttrs?.slotPosition] v-if="item.inputAttrs?.slotText">
+                    {{ item.inputAttrs?.slotText }}
+                  </template>
+                </el-input>
               </template>
 
               <!-- select 选择器 -->
@@ -39,7 +43,7 @@
                 >
                   <el-option
                     v-bind="item.otherOptions"
-                    v-for="options in item.options"
+                    v-for="options in item.selectOptions"
                     :key="options.value"
                     :label="options.label"
                     :value="options.value"
@@ -59,6 +63,22 @@
                 />
               </template>
 
+              <template v-else-if="item.type === 'radio-group'">
+                <el-radio-group
+                  :model-value="modelValue[item.field]"
+                  :style="item.style"
+                  @update:model-value="handleValueChange($event, item.field)"
+                >
+                  <el-radio
+                    v-bind="item.otherOptions"
+                    v-for="radio in item.radioOptions"
+                    :key="radio.value"
+                    :label="radio.label"
+                    >{{ radio.value }}</el-radio
+                  >
+                </el-radio-group>
+              </template>
+
               <!-- 其他 -->
               <template v-else>
                 <component
@@ -69,7 +89,8 @@
                   :style="item.style"
                   v-bind="item.otherOptions"
                   @update:model-value="handleValueChange($event, item.field)"
-                ></component>
+                >
+                </component>
               </template>
             </el-form-item>
           </el-col>
@@ -128,7 +149,7 @@ const FormRef = ref<FormInstance>()
 //watch(formDate, (newVal) => emits('update:modelValue', newVal), { deep: true })
 
 // 方法2： 上面HTML不用双向绑定，使用 model-value 绑定props里面的modelValue的值
-const handleValueChange = (value: string, field: any) => {
+const handleValueChange = (value: string | number | boolean, field: any) => {
   // value 是输入的值，field是表单名，{ [field]: value } 把两个拼在一起
   emits('update:modelValue', { ...props.modelValue, [field]: value })
 }

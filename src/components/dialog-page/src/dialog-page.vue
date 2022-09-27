@@ -1,7 +1,7 @@
 <template>
   <div class="page-modal">
     <el-dialog
-      :title="isEditOrAdd ? '修改' : '添加'"
+      :title="isEditOrAdd ? `修改${title}` : `添加${title}`"
       width="40%"
       v-model="dialogVisible"
       center
@@ -54,6 +54,7 @@ const props = withDefaults(
     defaultInfo: any
     // 名字
     pageName: string
+    title?: string
 
     // 其他需要加入到dialog的数据，比如外面有个tree 修改的时候要一起发送请求
     otherInfo?: object
@@ -67,10 +68,11 @@ const props = withDefaults(
     defaultInfo: () => ({}),
     otherInfo: () => ({}),
     animate: manager,
-    showAnimate: true
+    showAnimate: true,
+    title: ''
   }
 )
-const emits = defineEmits(['dialogOpen', 'dialogClose'])
+const emits = defineEmits(['dialogOpen', 'dialogClose', 'confirm'])
 
 const commenFormRef = ref<InstanceType<typeof CommenForm>>()
 
@@ -108,6 +110,7 @@ const isEditOrAdd = computed(() => Object.keys(props.defaultInfo).length)
 const handleConfirmClick = () => {
   commenFormRef.value?.FormRef?.validate((valid) => {
     if (!valid) return
+    emits('confirm')
     // 判断修改还是添加
     if (Object.keys(props.defaultInfo).length) {
       // 修改

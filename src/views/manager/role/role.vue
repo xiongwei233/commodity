@@ -9,6 +9,8 @@
         @add-list-click="handleAddData"
         @edit-list-click="handleEditData"
         :switchDisabled="switchDisabled"
+        :handle-delete-show="handleDeleteShow"
+        :handle-edit-show="handleEditShow"
       >
         <template #actions="scope">
           <el-button text type="primary" size="small" :icon="User" @click="permissions(scope.row)">
@@ -87,6 +89,13 @@ const { dialogPageRef, defaultInfo, handleAddData, handleEditData } = usePageMod
 
 // switch 禁用
 const switchDisabled = (scope: any) =>
+  scope.row.id === 1 || scope.row.id === 2 || scope.row.id === 3
+
+// 是否显示修改
+const handleEditShow = (scope: any) =>
+  scope.row.id === 1 || scope.row.id === 2 || scope.row.id === 3
+// 是否显示删除
+const handleDeleteShow = (scope: any) =>
   scope.row.id === 1 || scope.row.id === 2 || scope.row.id === 3
 
 // 配置权限

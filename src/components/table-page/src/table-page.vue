@@ -43,7 +43,11 @@
           @click="edtiStatus(scope.row.status, scope.row)"
         ></el-switch>
       </template>
-      <!--|| scope.row.switchdisabled(scope)-->
+
+      <!--<template #couponStates="scope">
+        {{ scope }}
+      </template>-->
+
       <!-- 操作 -->
       <template #handler="scope">
         <div>
@@ -54,7 +58,7 @@
             size="small"
             @click="handleEidtClick(scope.row)"
             :icon="Edit"
-            v-if="!switchDisabled(scope)"
+            v-if="!handleEditShow(scope)"
           >
             修改
           </el-button>
@@ -64,7 +68,7 @@
             title="是否要删除该公告信息？"
             :show-icon="showIcon"
             :icon="icon"
-            v-if="!switchDisabled(scope)"
+            v-if="!handleDeleteShow(scope)"
           ></popconfirm>
         </div>
       </template>
@@ -101,16 +105,20 @@ const props = withDefaults(
     // 添加表单按钮的名称
     addBtnName?: string
     // 批量删除
-    showBatchDelete: boolean
+    showBatchDelete?: boolean
 
     icon?: any
     showIcon?: boolean
     switchDisabled?: Function
+    handleEditShow?: Function
+    handleDeleteShow?: Function
   }>(),
   {
     addBtnName: '新增公告',
     showIcon: true,
     switchDisabled: () => false,
+    handleEditShow: () => false,
+    handleDeleteShow: () => false,
     showBatchDelete: false
   }
 )
@@ -152,7 +160,11 @@ const dataList = computed(() => {
     case 'skus':
       data = globalStore.skusList
       break
+    case 'coupon':
+      data = globalStore.couponList
+      break
   }
+  //console.log(data)
   return data
 })
 
@@ -172,6 +184,9 @@ const dataCount = computed(() => {
     case 'skus':
       count = globalStore.skusCount
       break
+    case 'coupon':
+      count = globalStore.couponCount
+      break
   }
   return count
 })
@@ -182,6 +197,7 @@ const otherPropSlots = props.tableConfig?.tableOptions.filter((item: any) => {
   // 固定的插槽
   if (item.slotName === 'handler') return false
   if (item.slotName === 'status') return false
+  //if (item.slotName === 'couponStates') return false
   //if (item.slotName === 'handler') return false
   return true
 })
