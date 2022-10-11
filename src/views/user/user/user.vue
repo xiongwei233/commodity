@@ -12,7 +12,6 @@
       <table-page
         add-btn-name="新增等级"
         :tableConfig="userTableConfig"
-        :searchConfig="searchConfig"
         ref="pageCountentRef"
         pageName="user"
         @add-list-click="handleAddData"

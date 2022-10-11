@@ -1,4 +1,4 @@
-import type PageContent from '@/components/search-page'
+import type PageContent from '@/components/table-page'
 import { toRaw } from 'vue'
 
 /**

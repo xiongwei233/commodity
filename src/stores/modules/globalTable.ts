@@ -56,7 +56,15 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
     userCount: <number>0,
     // level
     levelList: <any[]>[],
-    levelCount: <number>0
+    levelCount: <number>0,
+
+    // 订单管理
+    // user
+    orderList: <any[]>[],
+    orderCount: <number>0,
+    // level
+    commentList: <any[]>[],
+    commentCount: <number>0
   }),
   getters: {},
   actions: {
@@ -89,6 +97,13 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           break
         case 'user':
           pageUrl = '/admin/user'
+          break
+
+        case 'goods_comment':
+          pageUrl = '/admin/goods_comment'
+          break
+        case 'order':
+          pageUrl = '/admin/order'
           break
       }
 
@@ -130,6 +145,15 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
         case 'user':
           this.userList = pageResult.data.list
           this.userCount = pageResult.data.totalCount
+          break
+
+        case 'goods_comment':
+          this.commentList = pageResult.data.list
+          this.commentCount = pageResult.data.totalCount
+          break
+        case 'order':
+          this.orderList = pageResult.data.list
+          this.orderCount = pageResult.data.totalCount
           break
       }
       //console.log(pageResult)

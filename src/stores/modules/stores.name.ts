@@ -11,6 +11,7 @@ export const enum Names {
   ROLE = 'ROLE',
   COUPON = 'COUPON',
   RECOMMENDED = 'RECOMMENDED',
+  ORDER = 'ORDER',
 
   // 公共的 store
   GLOBAL_TABLE = 'global_Table',

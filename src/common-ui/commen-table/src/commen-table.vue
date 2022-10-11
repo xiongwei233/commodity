@@ -25,6 +25,13 @@
         width="60"
       ></el-table-column>
 
+      <!-- 展开 -->
+      <el-table-column v-if="showExpandColunm" type="expand" width="55" align="center">
+        <template #default="props">
+          <slot name="expand" :row="props.row"></slot>
+        </template>
+      </el-table-column>
+
       <!-- item项 -->
       <template v-for="propItem in tableOptions" :key="propItem.prop">
         <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
@@ -75,10 +82,13 @@ const props = withDefaults(
     showIndexColunm?: boolean
     // 是否可以选中--多选单选
     showSelectColunm?: boolean
-    // 表单顶部的标题
-    title?: string
+    // 是否显示展开行
+    showExpandColunm?: boolean
     // 可展开表单
     childrenProps?: any
+
+    // 表单顶部的标题
+    title?: string
 
     // 分页的总条数
     total?: number
@@ -92,6 +102,7 @@ const props = withDefaults(
   {
     showIndexColunm: false,
     showSelectColunm: false,
+    showExpandColunm: false,
     total: 0,
     page: () => ({ currentPage: 0, pageSize: 10 }),
     showFooter: true,

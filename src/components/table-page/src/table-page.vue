@@ -8,9 +8,14 @@
       v-model:page="pageInfo"
       @selection-change="selectionChange"
     >
+      <!-- 展开 -->
+      <template #expand="scope">
+        <slot name="expand" :row="scope.row"></slot>
+      </template>
+
       <!-- headers中的插槽 -->
       <template #header>
-        <add-refresh @updateTable="getPageDate">
+        <add-refresh @updateTable="getPageDate" v-if="showRefresh">
           <template #add>
             <el-button type="primary" size="default" @click="handleAddClick">
               <el-icon class="mr-1" :size="16"><CirclePlus /></el-icon>
@@ -100,8 +105,7 @@ const props = withDefaults(
   defineProps<{
     // 表格的配置
     tableConfig: any
-    // 搜索的配置
-    searchConfig?: any
+
     // 名字
     pageName: string
     // 添加表单按钮的名称
@@ -111,6 +115,7 @@ const props = withDefaults(
 
     icon?: any
     showIcon?: boolean
+    showRefresh?: boolean
     switchDisabled?: Function
     handleEditShow?: Function
     handleDeleteShow?: Function
@@ -121,7 +126,8 @@ const props = withDefaults(
     switchDisabled: () => false,
     handleEditShow: () => false,
     handleDeleteShow: () => false,
-    showBatchDelete: false
+    showBatchDelete: false,
+    showRefresh: true
   }
 )
 const switchLoading = ref<boolean>(false)
@@ -174,6 +180,10 @@ const dataList = computed(() => {
     case 'user':
       data = globalStore.userList
       break
+
+    case 'goods_comment':
+      data = globalStore.commentList
+      break
   }
   //console.log(data)
   return data
@@ -206,6 +216,10 @@ const dataCount = computed(() => {
       break
     case 'user':
       count = globalStore.userCount
+      break
+
+    case 'goods_comment':
+      count = globalStore.commentCount
       break
   }
   return count

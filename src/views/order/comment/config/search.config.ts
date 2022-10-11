@@ -1,20 +1,11 @@
 import type { IFormItem } from '@/common-ui/commen-form/types/form.type'
 
-import formValidate from './search.validate'
-
 const formOptions: IFormItem[] = [
   {
     type: 'input',
     field: 'keyword',
     label: '关键词',
-    placeholder: '请输入手机号/邮箱/用户昵称'
-  },
-  {
-    type: 'select',
-    field: 'user_level_id',
-    label: '会员等级',
-    placeholder: '请输入会员等级',
-    selectOptions: []
+    placeholder: '请输入要搜索的商品'
   }
 ]
 
