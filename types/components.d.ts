@@ -85,6 +85,7 @@ declare module '@vue/runtime-core' {
     Popconfirm: typeof import('./../src/components/popconfirm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchPage: typeof import('./../src/components/search-page/src/search-page.vue')['default']
     SelectV2: typeof import('./../src/components/select-v2.vue')['default']
     Src: typeof import('./src/components/form/src/index.vue')['default']
     Table: typeof import('./src/components/table/index.vue')['default']

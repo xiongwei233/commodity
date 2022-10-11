@@ -1,11 +1,11 @@
 import type { App, DirectiveBinding } from 'vue'
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 
 /**
  * 针对按钮的权限
  */
 const hasPermission = (binding: DirectiveBinding<any>, el: Element) => {
-  const userStore = useUserStore()
+  const userStore = useLoginStore()
   // 使用的时候不传递数组 就报错
   if (!Array.isArray(binding.value)) {
     throw new Error(`配置需要权限，例如v-permission="['getStatistics3,GET']"`)

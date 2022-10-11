@@ -38,13 +38,13 @@
 </template>
 
 <script lang="ts">
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 import { ref } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 </script>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+const userStore = useLoginStore()
 const route = useRoute()
 
 // 解决tag标签和menu导航不联动

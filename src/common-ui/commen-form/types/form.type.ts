@@ -52,6 +52,7 @@ export interface IFormItem {
     slotPosition?: 'prepend' | 'append'
     // 输入框下面的文字
     bottomText?: string
+    showPassword?: boolean
   }
   //select的option的数据
   selectOptions?: any[]

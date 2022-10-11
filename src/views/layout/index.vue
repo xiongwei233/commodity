@@ -34,11 +34,11 @@ import AppTagList from './components/app-tagList.vue'
 import AppHeaders from './components/app-headers.vue'
 import AppMenu from './components/app-menu.vue'
 
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 </script>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+const userStore = useLoginStore()
 </script>
 
 <style scoped lang="less">

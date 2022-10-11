@@ -87,9 +87,9 @@ watch(
     for (const item of props.modalConfig?.formOptions) {
       formDate.value[item.field] = newValue[item.field]
     }
-    console.log('表单的数据', newValue)
+    //console.log('表单的数据', newValue)
     //console.log(formDate)
-    console.log(formDate.value)
+    //console.log(formDate.value)
   }
 )
 

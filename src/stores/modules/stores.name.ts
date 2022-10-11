@@ -2,6 +2,7 @@
 // 注意: 仓库名不要重复，不然会报错
 export const enum Names {
   USER = 'USER',
+  LOGIN = 'LOGIN',
   HOME = 'HOME',
   IMAGE = 'IMAGE',
   NOTICE = 'NOTICE',

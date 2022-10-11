@@ -6,7 +6,8 @@ export const getGlobalTableAPI = (pageUrl: string, queryInfo: PageType) => {
   return request.get(`${pageUrl}/${queryInfo.page}`, {
     params: {
       limit: queryInfo.limit,
-      keyword: queryInfo.keyword
+      keyword: queryInfo.keyword,
+      user_level_id: queryInfo.user_level_id
     }
   })
 }

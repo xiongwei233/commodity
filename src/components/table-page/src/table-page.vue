@@ -100,6 +100,8 @@ const props = withDefaults(
   defineProps<{
     // 表格的配置
     tableConfig: any
+    // 搜索的配置
+    searchConfig?: any
     // 名字
     pageName: string
     // 添加表单按钮的名称
@@ -131,13 +133,13 @@ const pageInfo = ref({ currentPage: 1, pageSize: 10 })
 watch(pageInfo, () => getPageDate())
 
 // 2.查询用户列表-- 发生网络请求
-const getPageDate = (queryInfo: any = {}) => {
+const getPageDate = (queryInfos: any = {}) => {
   globalStore.getTableList_fetch({
     pageName: props.pageName,
     queryInfo: {
       page: pageInfo.value.currentPage,
       limit: pageInfo.value.pageSize,
-      ...queryInfo
+      ...queryInfos
     }
   })
 }

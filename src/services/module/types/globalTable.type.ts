@@ -8,6 +8,7 @@ export type PageType = {
   limit: number
   page: number
   keyword?: string | number
+  user_level_id?: string | number
 }
 
 // 删除

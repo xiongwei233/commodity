@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 
 // 进度条
 import NProgress from 'nprogress' // nprogress插件
@@ -18,7 +18,7 @@ const services = axios.create({
 services.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    const userStore = useUserStore()
+    const userStore = useLoginStore()
 
     // 添加token
     if (config.headers && userStore.token) {
@@ -45,7 +45,7 @@ services.interceptors.response.use(
     return response.data
   },
   function (error) {
-    const userStore = useUserStore()
+    const userStore = useLoginStore()
 
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么

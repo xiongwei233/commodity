@@ -1,4 +1,4 @@
-import type { userInfo_Menu } from '@/services/module/types/user.type'
+import type { userInfo_Menu } from '@/services/module/types/login.type'
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 
 const Login = () => import('@/views/login/index.vue')
@@ -8,12 +8,6 @@ const Layout = () => import('@/views/layout/index.vue')
 
 // 动态路由，用于匹配菜单动态添加路由
 import { asyncRoutes } from './dynamicRouter'
-
-// 分销模块
-//其他模块
-const home = () => import('@/views/home/index.vue')
-const image = () => import('@/views/other/image.vue')
-const notice = () => import('@/views/other/notice.vue')
 
 // 默认路由，所有用户共享
 const routes: Array<RouteRecordRaw> = [

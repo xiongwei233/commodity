@@ -38,9 +38,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 import { useTabList } from './hooks/useTagList'
-const userStore = useUserStore()
+const userStore = useLoginStore()
 
 // 抽离的 hooks
 const { activeTab, changeTab, removeTab, tabsList, clearOther, clearAll } = useTabList()

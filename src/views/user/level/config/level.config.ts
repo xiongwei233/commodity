@@ -1,5 +1,5 @@
 export const levelTableConfig = {
-  // 表单的配置
+  // 表格的配置
   tableOptions: [
     { prop: 'name', label: '会员等级', minWidth: '150' },
     { prop: 'discount', label: '折扣率(%)', minWidth: '100' },

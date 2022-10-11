@@ -50,7 +50,7 @@
 <script lang="ts">
 import { useFullscreen } from '@vueuse/core'
 import { removeToken } from '@/utils/cookie'
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 
 import LogoIconWhite from '@/assets/icons/login/logo-icon-white.vue'
 import HeadersDrawer from './headers-drawer.vue'
@@ -59,7 +59,7 @@ import { NotificationBox } from '@/utils/element-Fun'
 
 <script setup lang="ts">
 const APP_TITLE = import.meta.env.VITE_APP_TITLE
-const userStore = useUserStore()
+const userStore = useLoginStore()
 const router = useRouter()
 
 // 修改密码对话框

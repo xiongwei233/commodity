@@ -91,7 +91,6 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
           pageUrl = '/admin/user'
           break
       }
-      //console.log(pageUrl)
 
       // 2.发送请求
       this.loading = true

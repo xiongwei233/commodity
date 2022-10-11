@@ -1,7 +1,7 @@
 /**
  * 权限的处理
  */
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 import { addAsyncRoutes, router } from '@/router'
 import { getToken } from './utils/cookie'
 import { NotificationBox } from './utils/element-Fun'
@@ -9,7 +9,7 @@ import { NotificationBox } from './utils/element-Fun'
 // 全局前置守卫
 let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore()
+  const userStore = useLoginStore()
 
   const Token = getToken()
 

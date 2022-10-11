@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { removeToken } from '@/utils/cookie'
@@ -41,7 +41,7 @@ import type { IEditPassword } from '@/types/user'
 </script>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+const userStore = useLoginStore()
 const router = useRouter()
 
 // 修改密码表单

@@ -53,7 +53,7 @@ import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
 import type { IloginForm } from '@/types/user'
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 import { validatePassword, validateUsername } from '@/utils/form-validate'
 import { NotificationBox } from '@/utils/element-Fun'
 import type { FormOptions } from '@/components/common-form/types/types'
@@ -61,7 +61,7 @@ import type { FormOptions } from '@/components/common-form/types/types'
 
 <script setup lang="ts">
 const router = useRouter()
-const userStore = useUserStore()
+const userStore = useLoginStore()
 
 const loginRef = ref<InstanceType<typeof commonForm>>()
 const APP_TITLE = import.meta.env.VITE_APP_TITLE

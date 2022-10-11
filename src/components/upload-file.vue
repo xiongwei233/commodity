@@ -25,7 +25,7 @@
 <script lang="ts">
 import { router } from '@/router'
 import { uoloadImageUrl } from '@/services/module/image'
-import { useUserStore } from '@/stores/modules/user'
+import { useLoginStore } from '@/stores/modules/login'
 
 import { getToken, removeToken } from '@/utils/cookie'
 import { NotificationBox } from '@/utils/element-Fun'
@@ -35,7 +35,7 @@ import { ref } from 'vue'
 
 <script setup lang="ts">
 const token = getToken()
-const userStore = useUserStore()
+const userStore = useLoginStore()
 const emit = defineEmits(['success'])
 const props = withDefaults(
   defineProps<{
