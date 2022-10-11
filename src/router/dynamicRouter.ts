@@ -10,7 +10,8 @@ const level = () => import('@/views/user/level/level.vue')
 const user = () => import('@/views/user/user/user.vue')
 
 // 订单管理
-const order = () => import('@/views/order/order.vue')
+const order = () => import('@/views/order/order/order.vue')
+const comment = () => import('@/views/order/comment/comment.vue')
 
 //管理员管理
 const manager = () => import('@/views/manager/manager/manager.vue')
@@ -95,6 +96,14 @@ export const asyncRoutes = [
     component: order,
     meta: {
       title: '订单管理'
+    }
+  },
+  {
+    path: '/comment/list',
+    name: '/comment/list',
+    component: comment,
+    meta: {
+      title: '评论管理'
     }
   },
 
