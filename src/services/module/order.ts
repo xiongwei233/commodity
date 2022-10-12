@@ -28,7 +28,7 @@ export const orderShippedAPI = ({ id, express_company, express_no }: IShipped) =
 export type IRefund = {
   id: number
   agree: 0 | 1
-  disagree_reason: string
+  disagree_reason?: string
 }
 export const orderRefundAPI = ({ id, agree, disagree_reason }: IRefund) => {
   return request.post(`admin/order/${id}/handle_refund`, {

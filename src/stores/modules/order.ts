@@ -58,7 +58,15 @@ export const useOrderStore = defineStore(Names.ORDER, {
 
     // 拒绝/同意退款
     orderRefund_fetch(datas: IRefund) {
-      this.fetchHooks(orderRefundAPI, datas)
+      return new Promise((resolve, reject) => {
+        orderRefundAPI(datas)
+          .then((data: any) => {
+            resolve(data)
+          })
+          .catch((err: any) => {
+            reject(err)
+          })
+      })
     },
 
     // 导出订单

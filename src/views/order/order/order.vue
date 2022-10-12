@@ -120,8 +120,12 @@
               订单发货
             </el-button>
             <template v-if="activeTabs === 'refunding'">
-              <el-button type="primary" size="small" link>同意退款</el-button>
-              <el-button type="danger" size="small" link>拒绝退款</el-button>
+              <el-button type="primary" size="small" link @click="agreeRefund(scope.row)">
+                同意退款
+              </el-button>
+              <el-button type="danger" size="small" link @click="rejectRefund(scope.row)">
+                拒绝退款
+              </el-button>
             </template>
           </div>
         </template>
@@ -159,6 +163,7 @@ import type { TabsPaneContext } from 'element-plus'
 import GoodsDialog from './components/goods-dialog.vue'
 import LogisticsDialog from './components/logistics-dialog.vue'
 import ShipDialog from './components/ship-dialog.vue'
+import { showConfirm, showPrompt } from '@/utils/element-Fun'
 </script>
 
 <script setup lang="ts">
@@ -195,7 +200,8 @@ const { pageCountentRef, handleResetClick, handleQueryClick } = useTableSearch(
 )
 
 // 切换tabs
-const handleClick = (tab: TabsPaneContext) => {
+const handleClick = (tab?: TabsPaneContext) => {
+  console.log(activeTabs.value)
   activeTabs.value = tab?.props?.name as string
   pageCountentRef.value?.getPageDate({ tab: activeTabs.value })
 }
@@ -225,6 +231,31 @@ const shipHandler = async () => {
 const shipOrder = async (row: any) => {
   await orderStore.express_fetch()
   shipRef.value?.open(row.id)
+}
+
+// 同意退款
+const agreeRefund = (row: any) => {
+  showConfirm({ message: '是否要同意该订单退款?' }).then(() => {
+    orderStore
+      .orderRefund_fetch({
+        id: row.id,
+        agree: 1
+      })
+      .then(() => handleClick())
+  })
+}
+
+// 拒绝退款
+const rejectRefund = (row: any) => {
+  showPrompt('请输入拒绝的理由').then(({ value }: { value: any }) => {
+    orderStore
+      .orderRefund_fetch({
+        id: row.id,
+        agree: 0,
+        disagree_reason: value
+      })
+      .then(() => handleClick())
+  })
 }
 </script>
 
