@@ -59,10 +59,10 @@ export const useGlobalStore = defineStore(Names.GLOBAL_TABLE, {
     levelCount: <number>0,
 
     // 订单管理
-    // user
+    // order
     orderList: <any[]>[],
     orderCount: <number>0,
-    // level
+    // commen
     commentList: <any[]>[],
     commentCount: <number>0
   }),

@@ -51,6 +51,10 @@ const handleResetClick = () => {
 const handleQueryClick = () => {
   emits('queryBtnClick', formDate.value)
 }
+
+defineExpose({
+  formDate
+})
 </script>
 
 <style scoped lang="less"></style>

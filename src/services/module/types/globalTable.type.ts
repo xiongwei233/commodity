@@ -9,6 +9,7 @@ export type PageType = {
   page: number
   keyword?: string | number
   user_level_id?: string | number
+  tab?: 'tab' | 'nopay' | 'noship' | 'shiped' | 'received' | 'finish' | 'closed' | 'refunding'
 }
 
 // 删除

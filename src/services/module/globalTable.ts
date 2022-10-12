@@ -5,9 +5,11 @@ import type { PageType } from './types/globalTable.type'
 export const getGlobalTableAPI = (pageUrl: string, queryInfo: PageType) => {
   return request.get(`${pageUrl}/${queryInfo.page}`, {
     params: {
-      limit: queryInfo.limit,
-      keyword: queryInfo.keyword,
-      user_level_id: queryInfo.user_level_id
+      //limit: queryInfo.limit,
+      //keyword: queryInfo.keyword,
+      //user_level_id: queryInfo.user_level_id,
+      //tab: queryInfo.tab
+      ...queryInfo
     }
   })
 }

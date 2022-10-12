@@ -15,13 +15,14 @@
 
       <!-- headers中的插槽 -->
       <template #header>
-        <add-refresh @updateTable="getPageDate" v-if="showRefresh">
+        <add-refresh @updateTable="getPageDate" v-if="showRefresh" :showSlotAdd="addShow">
           <template #add>
-            <el-button type="primary" size="default" @click="handleAddClick">
+            <el-button type="primary" size="default" @click="handleAddClick" v-if="addShow">
               <el-icon class="mr-1" :size="16"><CirclePlus /></el-icon>
               {{ addBtnName }}
             </el-button>
           </template>
+
           <template #form>
             <!-- 批量删除 -->
             <popconfirm
@@ -110,6 +111,8 @@ const props = withDefaults(
     pageName: string
     // 添加表单按钮的名称
     addBtnName?: string
+    // 添加按钮
+    addShow?: boolean
     // 批量删除
     showBatchDelete?: boolean
 
@@ -122,6 +125,7 @@ const props = withDefaults(
   }>(),
   {
     addBtnName: '新增公告',
+    addShow: true,
     showIcon: true,
     switchDisabled: () => false,
     handleEditShow: () => false,
@@ -184,6 +188,9 @@ const dataList = computed(() => {
     case 'goods_comment':
       data = globalStore.commentList
       break
+    case 'order':
+      data = globalStore.orderList
+      break
   }
   //console.log(data)
   return data
@@ -220,6 +227,9 @@ const dataCount = computed(() => {
 
     case 'goods_comment':
       count = globalStore.commentCount
+      break
+    case 'order':
+      count = globalStore.orderCount
       break
   }
   return count

@@ -72,7 +72,6 @@ import { modalConfig } from './config/dialog.config'
 
 import { usePageModal } from '@/hooks/useTable_AddorEdit'
 import { NotificationBox } from '@/utils/element-Fun'
-import type { IFormItem } from '@/common-ui/commen-form/types/form.type'
 </script>
 
 <script setup lang="ts">

@@ -4,7 +4,7 @@
       <!-- 按钮 -->
       <el-col :span="22">
         <el-row>
-          <el-col :lg="3" :md="4" :sm="5" :xs="5">
+          <el-col :lg="3" :md="4" :sm="5" :xs="5" v-if="showSlotAdd">
             <slot name="add"></slot>
           </el-col>
           <el-col :lg="12" :md="20" :sm="19" :xs="19">
@@ -30,8 +30,16 @@
 <script lang="ts"></script>
 
 <script setup lang="ts">
-const emits = defineEmits(['updateTable'])
+withDefaults(
+  defineProps<{
+    showSlotAdd?: boolean
+  }>(),
+  {
+    showSlotAdd: true
+  }
+)
 
+const emits = defineEmits(['updateTable'])
 const updateTable = () => emits('updateTable')
 </script>
 

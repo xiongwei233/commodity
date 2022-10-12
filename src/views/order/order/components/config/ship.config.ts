@@ -1,26 +1,25 @@
 import type { IFormItem } from '@/common-ui/commen-form/types/form.type'
 
-import formValidate from './search.validate'
-
 const formOptions: IFormItem[] = [
   {
-    type: 'input',
-    field: 'keyword',
-    label: '关键词',
-    placeholder: '请输入手机号/邮箱/用户昵称'
-  },
-  {
     type: 'select',
-    field: 'user_level_id',
-    label: '会员等级',
-    placeholder: '请输入会员等级',
+    field: 'express_company',
+    label: '快递公司',
+    placeholder: '请选择快递公司',
     style: { width: '100%' },
     selectOptions: []
+  },
+  {
+    type: 'input',
+    field: 'express_no',
+    label: '快递单号',
+    placeholder: '请输入快递单号'
   }
 ]
 
 export const searchConfig = {
   // 底层tabel的属性和 元素el-table都可以写
   formOptions: formOptions,
-  labelWidth: '80px'
+  labelWidth: '80px',
+  layoutReactive: { xs: 24 }
 }
